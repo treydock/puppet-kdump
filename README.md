@@ -10,15 +10,15 @@ This module manages the kdump service.
 
 ### Class: kdump
 
-Use default actions of ensuring kdump is running
+Use default actions of ensuring kdump is stopped
 
     class { 'kdump': }
 
-Example of how to disable kdump
+Example of how to enable kdump
 
     class { 'kdump':
-      service_ensure => 'stopped',
-      service_enable => false,
+      service_ensure => 'running',
+      service_enable => true,
     }
 
 ## Compatibility
