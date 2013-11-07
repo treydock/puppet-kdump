@@ -46,6 +46,13 @@ describe 'kdump' do
     })
   end
 
+  it 'should have default contents for /etc/kdump.conf' do
+    verify_contents(subject, '/etc/kdump.conf', [
+      'path /var/crash',
+      'core_collector makedumpfile -c --message-level 1 -d 31',
+    ])
+  end
+
   context 'when memorysize_mb => 8192' do
     let(:facts) { default_facts.merge({ :memorysize_mb => '8192' }) }
     it { should contain_kernel_parameter('crashkernel').with_value('auto') }
@@ -54,6 +61,46 @@ describe 'kdump' do
   context 'when operatingsystemrelease => 5.10' do
     let(:facts) { default_facts.merge({ :operatingsystemrelease => '5.10' }) }
     it { should contain_kernel_parameter('crashkernel').with_value('128M@16M') }
+  end
+
+  context 'with config_hashes defined as an Array of Hashes' do
+    let(:params) do
+      { 
+        :config_hashes => [
+          { 'path' => '/var/crash' },
+          { 'core_collector' => 'makedumpfile -c --message-level 1 -d 31' },
+          { 'kdump_post' => '/var/crash/scripts/kdump-post.sh' },
+        ],
+      }
+    end
+
+    it do
+      verify_contents(subject, '/etc/kdump.conf', [
+        'path /var/crash',
+        'core_collector makedumpfile -c --message-level 1 -d 31',
+        'kdump_post /var/crash/scripts/kdump-post.sh',
+      ])
+    end
+  end
+
+  context 'with config_hashes defined as an Array of Strings' do
+    let(:params) do
+      { 
+        :config_hashes => [
+          'path /var/crash',
+          'core_collector makedumpfile -c --message-level 1 -d 31',
+          'kdump_post /var/crash/scripts/kdump-post.sh',
+        ],
+      }
+    end
+
+    it do
+      verify_contents(subject, '/etc/kdump.conf', [
+        'path /var/crash',
+        'core_collector makedumpfile -c --message-level 1 -d 31',
+        'kdump_post /var/crash/scripts/kdump-post.sh',
+      ])
+    end
   end
 
   context 'with service_ensure => "undef"' do
@@ -74,5 +121,12 @@ describe 'kdump' do
   context 'with service_autorestart => "foo"' do
     let(:params) {{ :service_autorestart => "foo" }}
     it { expect { should create_class('kdump') }.to raise_error(Puppet::Error, /is not a boolean/) }
+  end
+
+  context 'with manage_config => false' do
+    let(:params) {{ :manage_config => false }}
+    it { should contain_package('kexec-tools').with_before(nil) }
+    it { should contain_service('kdump').with_subscribe(nil) }
+    it { should_not contain_file('/etc/kdump.conf') }
   end
 end

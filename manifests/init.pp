@@ -72,11 +72,15 @@ class kdump (
   $service_hasstatus      = $kdump::params::service_hasstatus,
   $service_hasrestart     = $kdump::params::service_hasrestart,
   $service_autorestart    = true,
-  $config_path            = $kdump::params::config_path
+  $manage_config          = true,
+  $config_path            = $kdump::params::config_path,
+  $config_hashes          = $kdump::params::config_hashes
 ) inherits kdump::params {
 
   validate_re($crashkernel_ensure, '^(present|absent)$')
   validate_bool($service_autorestart)
+  validate_bool($manage_config)
+  validate_array($config_hashes)
 
   $bootloader_config_path_real = $bootloader_config_path ? {
     'UNSET' => undef,
@@ -95,8 +99,16 @@ class kdump (
     default   => $service_enable,
   }
 
-  $service_subscribe = $service_autorestart ? {
+  $package_before = $manage_config ? {
     true  => File['/etc/kdump.conf'],
+    false => undef,
+  }
+
+  $service_subscribe = $service_autorestart ? {
+    true  => $manage_config ? {
+      true  => File['/etc/kdump.conf'],
+      false => undef,
+    },
     false => undef,
   }
 
@@ -110,7 +122,7 @@ class kdump (
   package { 'kexec-tools':
     ensure  => present,
     name    => $package_name,
-    before  => File['/etc/kdump.conf'],
+    before  => $package_before,
   }
 
   service { 'kdump':
@@ -122,12 +134,14 @@ class kdump (
     subscribe   => $service_subscribe,
   }
 
-  file { '/etc/kdump.conf':
-    ensure  => present,
-    path    => $config_path,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
+  if $manage_config {
+    file { '/etc/kdump.conf':
+      ensure  => present,
+      path    => $config_path,
+      content => template('kdump/kdump.conf.erb'),
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+    }
   }
-
 }

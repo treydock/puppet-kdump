@@ -21,6 +21,32 @@ Example of how to enable kdump
       service_enable => true,
     }
 
+Example of changing the configuration for kdump.conf.
+
+The *config_hashes* parameter may be an Array of Hashes or an Array of Strings.
+
+    class { 'kdump':
+      service_ensure => 'running',
+      service_enable => true,
+      config_hashes  => [
+        {'path' => '/var/crash'},
+        {'core_collector' => 'makedumpfile -c --message-level 1 -d 31'},
+        {'kdump_post' => '/var/crash/scripts/kdump-post.sh'},
+      ],
+    }
+
+Using an Array of Strings
+
+    class { 'kdump':
+      service_ensure => 'running',
+      service_enable => true,
+      config_hashes  => [
+        'path /var/crash',
+        'core_collector makedumpfile -c --message-level 1 -d 31',
+        'kdump_post /var/crash/scripts/kdump-post.sh',
+      ],
+    }
+
 ## Compatibility
 
 Tested using
