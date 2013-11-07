@@ -75,7 +75,7 @@ class kdump (
   $config_path            = $kdump::params::config_path
 ) inherits kdump::params {
 
-  validate_re($crashkernel_ensure, ['^present$','^absent$'])
+  validate_re($crashkernel_ensure, '^(present|absent)$')
   validate_bool($service_autorestart)
 
   $bootloader_config_path_real = $bootloader_config_path ? {
