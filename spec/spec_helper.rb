@@ -1,14 +1,11 @@
 require 'puppetlabs_spec_helper/module_spec_helper'
 
-shared_context :defaults do
-  let :default_facts do
-    {
-      :kernel                 => 'Linux',
-      :osfamily               => 'RedHat',
-      :operatingsystem        => 'CentOS',
-      :operatingsystemrelease => '6.4',
-      :architecture           => 'x86_64',
-      :memorysize_mb          => '512',
-    }
-  end
+dir = File.expand_path(File.dirname(__FILE__))
+Dir["#{dir}/support/**/*.rb"].sort.each { |f| require f }
+
+# Workaround for no method in rspec-puppet to pass undef through :params
+class Undef
+  def inspect; 'undef'; end
 end
+
+at_exit { RSpec::Puppet::Coverage.report! }

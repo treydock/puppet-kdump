@@ -1,16 +1,24 @@
-source "http://rubygems.org"
+source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
 group :development, :test do
-  gem 'rake'
-  gem 'puppetlabs_spec_helper', :require => false
-  gem 'puppet-lint'
-  gem 'puppet-syntax' unless ENV['PUPPET_GEM_VERSION'] =~ /2.6/
-  gem 'travis-lint'
-  gem 'rspec-system-puppet', '~> 2.0'
-  #  gem 'rspec-system-serverspec', '~> 1.0'
-  # Needed to use latest serverspec gem
-  # PR submitted: https://github.com/puppetlabs/rspec-system-serverspec/pull/3
-  gem 'rspec-system-serverspec', :git => 'git://github.com/nagas/rspec-system-serverspec.git', :branch => 'serverspec/0.x'
+  gem 'rake',                     :require => false
+  gem 'rspec-puppet',             :require => false, :git => 'https://github.com/rodjek/rspec-puppet.git'
+  gem 'puppetlabs_spec_helper',   :require => false
+  gem 'serverspec',               :require => false
+  gem 'puppet-lint',              :require => false
+  gem 'puppet-syntax',            :require => false
+  gem 'beaker',                   :require => false
+  gem 'beaker-rspec',             :require => false
+  gem 'pry',                      :require => false
+  gem 'simplecov',                :require => false
+  gem 'coveralls',                :require => false
+  gem 'rest-client', '~> 1.6.0',  :require => false if RUBY_VERSION =~ /^1.8/
+end
+
+if facterversion = ENV['FACTER_GEM_VERSION']
+  gem 'facter', facterversion, :require => false
+else
+  gem 'facter', :require => false
 end
 
 if puppetversion = ENV['PUPPET_GEM_VERSION']
@@ -18,3 +26,5 @@ if puppetversion = ENV['PUPPET_GEM_VERSION']
 else
   gem 'puppet', :require => false
 end
+
+# vim:ft=ruby
