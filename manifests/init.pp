@@ -61,80 +61,47 @@
 # Copyright 2013 Trey Dockendorf
 #
 class kdump (
-  $crashkernel_ensure     = 'present',
-  $crashkernel            = $kdump::params::crashkernel,
+  $enable                 = false,
+  $crashkernel            = 'auto',
   $crashkernel_bootmode   = 'all',
-  $bootloader_config_path = 'UNSET',
+  $bootloader_config_path = undef,
   $package_name           = $kdump::params::package_name,
   $service_name           = $kdump::params::service_name,
-  $service_ensure         = 'stopped',
-  $service_enable         = false,
   $service_hasstatus      = $kdump::params::service_hasstatus,
   $service_hasrestart     = $kdump::params::service_hasrestart,
-  $service_autorestart    = true,
-  $manage_config          = true,
   $config_path            = $kdump::params::config_path,
-  $config_hashes          = $kdump::params::config_hashes
+  $config_overrides       = {},
 ) inherits kdump::params {
 
-  validate_re($crashkernel_ensure, '^(present|absent)$')
-  validate_bool($service_autorestart)
-  validate_bool($manage_config)
-  validate_array($config_hashes)
+  validate_bool($enable)
+  validate_hash($config_overrides)
 
-  $bootloader_config_path_real = $bootloader_config_path ? {
-    'UNSET' => undef,
-    default => $bootloader_config_path,
+  $config = merge($kdump::params::config_defaults, $config_overrides)
+
+  if $enable {
+    $service_ensure     = 'running'
+    $service_enable     = true
+    $crashkernel_ensure = 'present'
+  } else {
+    $service_ensure     = 'stopped'
+    $service_enable     = false
+    $crashkernel_ensure = 'absent'
   }
 
-  # This gives the option to not manage the service 'ensure' state.
-  $service_ensure_real  = $service_ensure ? {
-    'undef'   => undef,
-    default   => $service_ensure,
-  }
+  if $enable {
+    kernel_parameter { 'crashkernel':
+      ensure   => 'present',
+      value    => $crashkernel,
+      target   => $bootloader_config_path,
+      bootmode => $crashkernel_bootmode,
+    }
 
-  # This gives the option to not manage the service 'enable' state.
-  $service_enable_real  = $service_enable ? {
-    'undef'   => undef,
-    default   => $service_enable,
-  }
+    package { 'kexec-tools':
+      ensure => present,
+      name   => $package_name,
+      before => File['/etc/kdump.conf'],
+    }
 
-  $package_before = $manage_config ? {
-    true  => File['/etc/kdump.conf'],
-    false => undef,
-  }
-
-  $service_subscribe = $service_autorestart ? {
-    true  => $manage_config ? {
-      true  => File['/etc/kdump.conf'],
-      false => undef,
-    },
-    false => undef,
-  }
-
-  kernel_parameter { 'crashkernel':
-    ensure    => $crashkernel_ensure,
-    value     => $crashkernel,
-    target    => $bootloader_config_path_real,
-    bootmode  => $crashkernel_bootmode,
-  }
-
-  package { 'kexec-tools':
-    ensure  => present,
-    name    => $package_name,
-    before  => $package_before,
-  }
-
-  service { 'kdump':
-    ensure      => $service_ensure_real,
-    enable      => $service_enable_real,
-    name        => $service_name,
-    hasstatus   => $service_hasstatus,
-    hasrestart  => $service_hasrestart,
-    subscribe   => $service_subscribe,
-  }
-
-  if $manage_config {
     file { '/etc/kdump.conf':
       ensure  => present,
       path    => $config_path,
@@ -142,6 +109,20 @@ class kdump (
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
+      notify  => Service['kdump'],
+    }
+  } else {
+    kernel_parameter { 'crashkernel':
+      ensure => 'absent',
     }
   }
+
+  service { 'kdump':
+    ensure     => $service_ensure,
+    enable     => $service_enable,
+    name       => $service_name,
+    hasstatus  => $service_hasstatus,
+    hasrestart => $service_hasrestart,
+  }
+
 }

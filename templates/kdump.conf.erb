@@ -146,13 +146,8 @@
 #force_rebuild 1
 #sshkey /root/.ssh/kdump_id_rsa
 
-<% @config_hashes.each do |config| -%>
-<% if config.is_a?(String) -%>
-<%= config unless config == 'UNSET' %>
-<% next -%>
-<% end -%>
-<% key = config.to_a.flatten[0] -%>
-<% value = config.to_a.flatten[1] -%>
-<% next if value == 'UNSET' -%>
-<%= key %> <%= value %>
+<% config = scope.lookupvar('kdump::config') -%>
+<% config.keys.sort.each do |c| -%>
+<% next if config[c] == 'UNSET' -%>
+<%= c %> <%= config[c] %>
 <% end -%>
