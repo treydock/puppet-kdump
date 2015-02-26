@@ -47,6 +47,12 @@ class kdump::params {
         'debug_mem_level'   => 'UNSET',
         'force_rebuild'     => 'UNSET',
       }
+
+      if $::operatingsystemmajrelease >= 7 {
+        $kernel_parameter_provider = 'grub2'
+      } else {
+        $kernel_parameter_provider = 'grub'
+      }
     }
 
     default: {
