@@ -48,7 +48,7 @@ class kdump::params {
         'force_rebuild'     => 'UNSET',
       }
 
-      if $::operatingsystemmajrelease >= 7 {
+      if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
         $kernel_parameter_provider = 'grub2'
       } else {
         $kernel_parameter_provider = 'grub'

@@ -95,11 +95,11 @@ class kdump (
 
   if $enable {
     kernel_parameter { 'crashkernel':
-      ensure    => 'present',
-      value     => $crashkernel,
-      target    => $bootloader_config_path,
-      bootmode  => $crashkernel_bootmode,
-      provider  => $kernel_parameter_provider,
+      ensure   => 'present',
+      value    => $crashkernel,
+      target   => $bootloader_config_path,
+      bootmode => $crashkernel_bootmode,
+      provider => $kernel_parameter_provider,
     }
 
     package { 'kexec-tools':
