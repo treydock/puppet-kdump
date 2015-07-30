@@ -1,6 +1,6 @@
 # puppet-kdump
 
-[![Build Status](https://travis-ci.org/treydock/puppet-kdump.png)](https://travis-ci.org/treydock/puppet-kdump)
+[![Build Status](https://travis-ci.org/treydock/puppet-kdump.svg?branch=master)](https://travis-ci.org/treydock/puppet-kdump)
 
 ## Overview
 
@@ -22,27 +22,14 @@ Example of how to enable kdump
 
 Example of changing the configuration for kdump.conf.
 
-The *config_hashes* parameter may be an Array of Hashes or an Array of Strings.
+The *config_overrides* is a hash that can be used to override the default configuration.  Below is the default config_overrides.
 
     class { 'kdump':
       enable => true,
-      config_hashes  => [
-        {'path' => '/var/crash'},
-        {'core_collector' => 'makedumpfile -c --message-level 1 -d 31'},
-        {'kdump_post' => '/var/crash/scripts/kdump-post.sh'},
-      ],
-    }
-
-Using an Array of Strings
-
-    class { 'kdump':
-      service_ensure => 'running',
-      service_enable => true,
-      config_hashes  => [
-        'path /var/crash',
-        'core_collector makedumpfile -c --message-level 1 -d 31',
-        'kdump_post /var/crash/scripts/kdump-post.sh',
-      ],
+      config_overrides => {
+        'path' => '/var/crash',
+        'core_collector' => 'makedumpfile -c --message-level 1 -d 31',
+      },
     }
 
 ## Compatibility
@@ -67,11 +54,11 @@ Install gem dependencies
 
 Run unit tests
 
-    bundle exec rake ci
+    bundle exec rake test
 
 If you have Vagrant >= 1.2.0 installed you can run system tests
 
-    bundle exec rake spec:system
+    bundle exec rake beaker
 
 ## Further Information
 
