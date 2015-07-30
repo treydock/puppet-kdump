@@ -37,6 +37,10 @@
 #   The configuration file path for kdump.
 #   Default: OS dependent
 #
+# [*kernel_parameter_provider*]
+#   The provider property for the kernel_parameter defined type.
+#   Default: OS dependent
+#
 # === Variables
 #
 # === Examples
@@ -61,16 +65,17 @@
 # Copyright 2013 Trey Dockendorf
 #
 class kdump (
-  $enable                 = false,
-  $crashkernel            = 'auto',
-  $crashkernel_bootmode   = 'all',
-  $bootloader_config_path = undef,
-  $package_name           = $kdump::params::package_name,
-  $service_name           = $kdump::params::service_name,
-  $service_hasstatus      = $kdump::params::service_hasstatus,
-  $service_hasrestart     = $kdump::params::service_hasrestart,
-  $config_path            = $kdump::params::config_path,
-  $config_overrides       = {},
+  $enable                    = false,
+  $crashkernel               = 'auto',
+  $crashkernel_bootmode      = 'all',
+  $bootloader_config_path    = undef,
+  $package_name              = $kdump::params::package_name,
+  $service_name              = $kdump::params::service_name,
+  $service_hasstatus         = $kdump::params::service_hasstatus,
+  $service_hasrestart        = $kdump::params::service_hasrestart,
+  $config_path               = $kdump::params::config_path,
+  $config_overrides          = {},
+  $kernel_parameter_provider = $kdump::params::kernel_parameter_provider,
 ) inherits kdump::params {
 
   validate_bool($enable)
@@ -90,10 +95,11 @@ class kdump (
 
   if $enable {
     kernel_parameter { 'crashkernel':
-      ensure   => 'present',
-      value    => $crashkernel,
-      target   => $bootloader_config_path,
-      bootmode => $crashkernel_bootmode,
+      ensure    => 'present',
+      value     => $crashkernel,
+      target    => $bootloader_config_path,
+      bootmode  => $crashkernel_bootmode,
+      provider  => $kernel_parameter_provider,
     }
 
     package { 'kexec-tools':
