@@ -1,5 +1,6 @@
 # puppet-kdump
 
+[![Puppet Forge](http://img.shields.io/puppetforge/v/treydock/kdump.svg)](https://forge.puppetlabs.com/treydock/kdump)
 [![Build Status](https://travis-ci.org/treydock/puppet-kdump.svg?branch=master)](https://travis-ci.org/treydock/puppet-kdump)
 
 ## Overview
