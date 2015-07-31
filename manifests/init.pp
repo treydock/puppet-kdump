@@ -119,7 +119,8 @@ class kdump (
     }
   } else {
     kernel_parameter { 'crashkernel':
-      ensure => 'absent',
+      ensure   => 'absent',
+      provider => $kernel_parameter_provider,
     }
   }
 
