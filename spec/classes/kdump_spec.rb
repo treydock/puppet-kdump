@@ -3,7 +3,11 @@ require 'spec_helper'
 describe 'kdump' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
-      let(:facts) { facts }
+      let(:facts) do
+        facts.merge({
+          :kernel_arguments => 'ro root=/dev/mapper/vg_sys-lv_root rd_LVM_LV=vg_sys/lv_swap rd_NO_LUKS LANG=en_US.UTF-8 rd_NO_MD  KEYTABLE=us nofb quiet splash=quiet SYSFONT=latarcyrheb-sun16 rd_LVM_LV=vg_sys/lv_root rd_NO_DM rhgb quiet crashkernel=131M@0M'
+        })
+      end
 
       case facts[:operatingsystemmajrelease]
       when '7'
@@ -35,16 +39,8 @@ describe 'kdump' do
       it { should_not contain_package('kexec-tools') }
       it { should_not contain_file('/etc/kdump.conf') }
 
-      context 'when kernel_arguments contains crashkernel' do
-        let(:facts) do
-          facts.merge({
-            :kernel_arguments => 'ro root=/dev/mapper/vg_sys-lv_root rd_LVM_LV=vg_sys/lv_swap rd_NO_LUKS LANG=en_US.UTF-8 rd_NO_MD  KEYTABLE=us nofb quiet splash=quiet SYSFONT=latarcyrheb-sun16 rd_LVM_LV=vg_sys/lv_root rd_NO_DM rhgb quiet crashkernel=131M@0M'
-          })
-        end
-
-        it do
-          should contain_notify('kdump').with_message('A reboot is required to fully disable the crashkernel')
-        end
+      it do
+        should contain_notify('kdump').with_message('A reboot is required to fully disable the crashkernel')
       end
 
       context 'when kernel_arguments does not contain crashkernel' do
@@ -98,16 +94,8 @@ describe 'kdump' do
           ])
         end
 
-        context 'when kernel_arguments contains crashkernel' do
-          let(:facts) do
-            facts.merge({
-              :kernel_arguments => 'ro root=/dev/mapper/vg_sys-lv_root rd_LVM_LV=vg_sys/lv_swap rd_NO_LUKS LANG=en_US.UTF-8 rd_NO_MD  KEYTABLE=us nofb quiet splash=quiet SYSFONT=latarcyrheb-sun16 rd_LVM_LV=vg_sys/lv_root rd_NO_DM rhgb quiet crashkernel=131M@0M'
-            })
-          end
-
-          it do
-            should_not contain_notify('kdump')
-          end
+        it do
+          should_not contain_notify('kdump')
         end
 
         context 'when kernel_arguments does not contain crashkernel' do
