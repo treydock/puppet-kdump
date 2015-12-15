@@ -11,4 +11,11 @@ class Undef
   def inspect; 'undef'; end
 end
 
+
+RSpec.configure do |c|
+  c.mock_with :rspec do |c|
+    c.syntax = :expect
+  end
+end
+
 at_exit { RSpec::Puppet::Coverage.report! }

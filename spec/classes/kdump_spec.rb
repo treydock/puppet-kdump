@@ -35,6 +35,30 @@ describe 'kdump' do
       it { should_not contain_package('kexec-tools') }
       it { should_not contain_file('/etc/kdump.conf') }
 
+      context 'when kernel_arguments contains crashkernel' do
+        let(:facts) do
+          facts.merge({
+            :kernel_arguments => 'ro root=/dev/mapper/vg_sys-lv_root rd_LVM_LV=vg_sys/lv_swap rd_NO_LUKS LANG=en_US.UTF-8 rd_NO_MD  KEYTABLE=us nofb quiet splash=quiet SYSFONT=latarcyrheb-sun16 rd_LVM_LV=vg_sys/lv_root rd_NO_DM rhgb quiet crashkernel=131M@0M'
+          })
+        end
+
+        it do
+          should contain_notify('kdump').with_message('A reboot is required to fully disable the crashkernel')
+        end
+      end
+
+      context 'when kernel_arguments does not contain crashkernel' do
+        let(:facts) do
+          facts.merge({
+            :kernel_arguments => 'ro root=/dev/mapper/vg_sys-lv_root rd_LVM_LV=vg_sys/lv_swap rd_NO_LUKS LANG=en_US.UTF-8 rd_NO_MD  KEYTABLE=us nofb quiet splash=quiet SYSFONT=latarcyrheb-sun16 rd_LVM_LV=vg_sys/lv_root rd_NO_DM rhgb quiet'
+          })
+        end
+
+        it do
+          should_not contain_notify('kdump')
+        end
+      end
+
       context 'when enable => true' do
         let(:params) {{ :enable => true }}
     
@@ -72,6 +96,30 @@ describe 'kdump' do
             'core_collector makedumpfile -c --message-level 1 -d 31',
             'path /var/crash',
           ])
+        end
+
+        context 'when kernel_arguments contains crashkernel' do
+          let(:facts) do
+            facts.merge({
+              :kernel_arguments => 'ro root=/dev/mapper/vg_sys-lv_root rd_LVM_LV=vg_sys/lv_swap rd_NO_LUKS LANG=en_US.UTF-8 rd_NO_MD  KEYTABLE=us nofb quiet splash=quiet SYSFONT=latarcyrheb-sun16 rd_LVM_LV=vg_sys/lv_root rd_NO_DM rhgb quiet crashkernel=131M@0M'
+            })
+          end
+
+          it do
+            should_not contain_notify('kdump')
+          end
+        end
+
+        context 'when kernel_arguments does not contain crashkernel' do
+          let(:facts) do
+            facts.merge({
+              :kernel_arguments => 'ro root=/dev/mapper/vg_sys-lv_root rd_LVM_LV=vg_sys/lv_swap rd_NO_LUKS LANG=en_US.UTF-8 rd_NO_MD  KEYTABLE=us nofb quiet splash=quiet SYSFONT=latarcyrheb-sun16 rd_LVM_LV=vg_sys/lv_root rd_NO_DM rhgb quiet'
+            })
+          end
+
+          it do
+            should contain_notify('kdump').with_message('A reboot is required to fully enable the crashkernel')
+          end
         end
 
         it do

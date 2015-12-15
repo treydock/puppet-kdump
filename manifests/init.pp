@@ -117,10 +117,22 @@ class kdump (
       mode    => '0644',
       notify  => Service['kdump'],
     }
+
+    if $::kernel_arguments !~ /crashkernel/ {
+      notify { 'kdump':
+        message => 'A reboot is required to fully enable the crashkernel'
+      }
+    }
   } else {
     kernel_parameter { 'crashkernel':
       ensure   => 'absent',
       provider => $kernel_parameter_provider,
+    }
+
+    if $::kernel_arguments =~ /crashkernel/ {
+      notify { 'kdump':
+        message => 'A reboot is required to fully disable the crashkernel'
+      }
     }
   }
 
