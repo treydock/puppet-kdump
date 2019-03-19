@@ -65,21 +65,18 @@
 # Copyright 2013 Trey Dockendorf
 #
 class kdump (
-  $enable                    = false,
-  $crashkernel               = 'auto',
-  $crashkernel_bootmode      = 'all',
-  $bootloader_config_path    = undef,
-  $package_name              = $kdump::params::package_name,
-  $service_name              = $kdump::params::service_name,
-  $service_hasstatus         = $kdump::params::service_hasstatus,
-  $service_hasrestart        = $kdump::params::service_hasrestart,
-  $config_path               = $kdump::params::config_path,
-  $config_overrides          = {},
-  $kernel_parameter_provider = $kdump::params::kernel_parameter_provider,
+  Boolean                        $enable                    = false,
+  String                         $crashkernel               = 'auto',
+  String                         $crashkernel_bootmode      = 'all',
+  Optional[Stdlib::AbsolutePath] $bootloader_config_path    = undef,
+  String                         $package_name              = $kdump::params::package_name,
+  String                         $service_name              = $kdump::params::service_name,
+  Boolean                        $service_hasstatus         = $kdump::params::service_hasstatus,
+  Boolean                        $service_hasrestart        = $kdump::params::service_hasrestart,
+  Stdlib::AbsolutePath           $config_path               = $kdump::params::config_path,
+  Hash                           $config_overrides          = {},
+  String                         $kernel_parameter_provider = $kdump::params::kernel_parameter_provider,
 ) inherits kdump::params {
-
-  validate_bool($enable)
-  validate_hash($config_overrides)
 
   $config = merge($kdump::params::config_defaults, $config_overrides)
 
