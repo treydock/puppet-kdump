@@ -13,7 +13,7 @@
 Facter.add(:kernel_arguments) do
   confine :kernel => :linux
   setcode do
-    cmdline_out = Facter::Util::Resolution.exec('cat /proc/cmdline 2>/dev/null')
+    cmdline_out = Facter::Core::Execution.execute('cat /proc/cmdline 2>/dev/null')
     cmdline_out
   end
 end

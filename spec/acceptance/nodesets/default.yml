@@ -1,10 +1,19 @@
 HOSTS:
-  centos-65-x64:
+  centos-7:
     roles:
-      - master
-    platform: el-6-x86_64
-    box: centos-65-x64-vbox436-nocm
-    box_url: http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-nocm.box
+      - client
+      - default
+    platform: el-7-x86_64
+    box: centos/7
     hypervisor: vagrant
+    vagrant_memsize: 1024
+  centos-6:
+    roles:
+      - client
+    platform: el-6-x86_64
+    box: centos/6
+    hypervisor: vagrant
+    vagrant_memsize: 1024
 CONFIG:
-  type: foss
+  type: aio
+  log_level: verbose
