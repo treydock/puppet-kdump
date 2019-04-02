@@ -1,23 +1,33 @@
-source ENV['GEM_SOURCE'] || "https://rubygems.org"
+source "http://rubygems.org"
 
 group :development, :test do
-  gem 'rake',                     :require => false
-  gem 'rspec',                    :require => false
-  gem 'rspec-puppet',             :require => false
+  if RUBY_VERSION.start_with? '1.8'
+    gem 'rake', '< 11',           :require => false
+  else
+    gem 'rake', '< 12',           :require => false
+  end
+  gem 'rspec', '~>3.1.0',         :require => false
+  gem 'rspec-puppet', '~>2.x',    :require => false
   gem 'rspec-puppet-facts',       :require => false
-  gem 'hiera-puppet-helper',      :require => false
   gem 'puppetlabs_spec_helper',   :require => false
   gem 'puppet-lint',              :require => false
+  gem 'metadata-json-lint',       :require => false
+  gem 'puppet-syntax',            :require => false
+  gem 'simplecov',                :require => false
+  gem 'json_pure', '~>1.x',       :require => false
+  gem 'puppet-strings',           :require => false
+  gem 'github_changelog_generator', :require => false
 end
 
 group :system_tests do
-  gem 'beaker',                       :require => false
+  gem 'beaker', '~>4.x',              :require => false
+  gem 'beaker-docker',                :require => false
+  gem 'beaker-puppet',                :require => false
   gem 'beaker-rspec',                 :require => false
-  gem 'beaker-vagrant',               :require => false
-  gem 'beaker-module_install_helper', :require => false
-  gem 'beaker-puppet_install_helper', :require => false
   gem 'serverspec',                   :require => false
-  gem 'pry',                          :require => false unless RUBY_VERSION =~ /^1.8/
+  gem 'beaker-puppet_install_helper', :require => false
+  gem 'beaker-module_install_helper', :require => false
+  gem 'pry',                          :require => false
 end
 
 if facterversion = ENV['FACTER_GEM_VERSION']
@@ -26,10 +36,4 @@ else
   gem 'facter', :require => false
 end
 
-if puppetversion = ENV['PUPPET_GEM_VERSION']
-  gem 'puppet', puppetversion, :require => false
-else
-  gem 'puppet', :require => false
-end
-
-# vim:ft=ruby
+gem 'puppet', ENV['PUPPET_GEM_VERSION'] || '~> 5.x', :require => false
