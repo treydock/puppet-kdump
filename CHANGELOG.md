@@ -4,6 +4,10 @@ Release notes for the treydock-kdump module.
 
 ------------------------------------------
 
+#### 0.1.1 - 2019-04-02
+
+* Fix Puppet support to add Puppet 6 back
+
 #### 0.1.0 - 2019-03-19
 
 * Update to work with puppet 4.10 and later
