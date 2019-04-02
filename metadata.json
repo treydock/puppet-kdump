@@ -1,6 +1,6 @@
 {
   "name": "treydock-kdump",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "treydock",
   "summary": "Kdump Puppet module",
   "license": "Apache-2.0",
@@ -23,7 +23,13 @@
     }
   ],
   "dependencies": [
-    { "name": "puppetlabs/stdlib", "version_requirement": ">= 3.2.0 <5.0.0" },
-    { "name": "herculesteam/augeasproviders_grub", "version_requirement": "2.x" }
+    { "name": "puppetlabs/stdlib", "version_requirement": ">= 4.13.0 <6.0.0" },
+    { "name": "herculesteam/augeasproviders_grub", "version_requirement": ">= 2.3.1 <4.0.0" }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.10.4 < 6.0.0"
+    }
   ]
 }

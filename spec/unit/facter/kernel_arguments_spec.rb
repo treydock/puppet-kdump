@@ -2,12 +2,15 @@ require 'spec_helper'
 
 describe 'kernel_arguments fact' do
   before :each do
-    Facter.fact(:kernel).stubs(:value).returns('Linux')
+    Facter.clear
   end
 
-  it "should return output from /proc/cmdline" do
-    expected_value = my_fixture_read('cmdline1')
-    allow(Facter::Util::Resolution).to receive(:exec).with('cat /proc/cmdline 2>/dev/null').and_return(expected_value)
-    expect(Facter.fact(:kernel_arguments).value).to eq(expected_value)
+  context 'kernel is linux' do
+    it 'should return output from /proc/cmdline' do
+      expected_value = my_fixture_read('cmdline1')
+      allow(Facter::Core::Execution).to receive(:exec).with('uname -s').and_return('Linux')
+      allow(Facter::Core::Execution).to receive(:execute).with('cat /proc/cmdline 2>/dev/null').and_return(expected_value)
+      expect(Facter.fact(:kernel_arguments).value).to eq(expected_value)
+    end
   end
 end
