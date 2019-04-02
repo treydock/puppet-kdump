@@ -11,6 +11,7 @@ Release notes for the treydock-kdump module.
   depricated validate functions.
 * Updated tests and Gemfile to  work with
   latest beaker.
+* Drop support for EL5
 * Add kernel_arguments fact
 * Issue a notification when a reboot is required to enable/disable kdump
 
