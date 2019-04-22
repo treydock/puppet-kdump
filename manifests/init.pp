@@ -71,6 +71,8 @@ class kdump (
   Optional[Stdlib::AbsolutePath] $bootloader_config_path    = undef,
   String                         $package_name              = $kdump::params::package_name,
   String                         $service_name              = $kdump::params::service_name,
+  Optional[String]               $service_ensure            = undef,
+  Optional[Boolean]              $service_enable            = undef,
   Boolean                        $service_hasstatus         = $kdump::params::service_hasstatus,
   Boolean                        $service_hasrestart        = $kdump::params::service_hasrestart,
   Stdlib::AbsolutePath           $config_path               = $kdump::params::config_path,
@@ -81,13 +83,13 @@ class kdump (
   $config = merge($kdump::params::config_defaults, $config_overrides)
 
   if $enable {
-    $service_ensure     = 'running'
-    $service_enable     = true
-    $crashkernel_ensure = 'present'
+    $service_ensure_real = pick($service_ensure, 'running')
+    $service_enable_real = pick($service_enable, true)
+    $crashkernel_ensure  = 'present'
   } else {
-    $service_ensure     = 'stopped'
-    $service_enable     = false
-    $crashkernel_ensure = 'absent'
+    $service_ensure_real = 'stopped'
+    $service_enable_real = false
+    $crashkernel_ensure  = 'absent'
   }
 
   if $enable {
@@ -134,8 +136,8 @@ class kdump (
   }
 
   service { 'kdump':
-    ensure     => $service_ensure,
-    enable     => $service_enable,
+    ensure     => $service_ensure_real,
+    enable     => $service_enable_real,
     name       => $service_name,
     hasstatus  => $service_hasstatus,
     hasrestart => $service_hasrestart,
