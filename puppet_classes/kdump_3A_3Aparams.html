@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Puppet Class: kdump::params
+  
+    &mdash; Documentation by YARD 0.9.19
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "puppet_classes::kdump::params";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../puppet_class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (k)</a> &raquo;
+    <span class='title'><span class='object_link'>Puppet Classes</span></span>
+     &raquo; 
+    <span class="title">kdump::params</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="../puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Puppet Class: kdump::params</h1>
+<div class="box_info">
+  
+  
+  <dl>
+    <dt>Inherited by:</dt>
+    <dd>
+      
+      <span class='object_link'><a href="kdump.html" title="puppet_classes::kdump (puppet_class)">kdump</a></span><br/>
+      
+    </dd>
+  </dl>
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>
+      manifests/params.pp
+    </dd>
+  </dl>
+</div>
+
+<h2>Overview</h2>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>== Class: kdump::params</p>
+
+<p>The kdump configuration settings.</p>
+
+<p>=== Variables</p>
+
+<p>=== Authors</p>
+
+<p>Trey Dockendorf <a href="mailto:treydock@gmail.com">treydock@gmail.com</a></p>
+
+<p>=== Copyright</p>
+
+<p>Copyright 2013 Trey Dockendorf</p>
+
+  </div>
+</div>
+
+
+<div class="tags">
+  
+
+</div><div class="method_details_list">
+  <table class="source_code">
+    <tr>
+      <td>
+        <pre class="lines">
+
+
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre>
+      </td>
+      <td>
+        <pre class="code"><span class="info file"># File 'manifests/params.pp', line 15</span>
+
+class kdump::params {
+
+  case $::osfamily {
+    &#39;RedHat&#39;: {
+      $package_name       = &#39;kexec-tools&#39;
+      $service_name       = &#39;kdump&#39;
+      $service_hasstatus  = true
+      $service_hasrestart = true
+      $config_path        = &#39;/etc/kdump.conf&#39;
+
+      $config_defaults = {
+        &#39;path&#39;              =&gt; &#39;/var/crash&#39;,
+        &#39;core_collector&#39;    =&gt; &#39;makedumpfile -c --message-level 1 -d 31&#39;,
+        &#39;raw&#39;               =&gt; &#39;UNSET&#39;,
+        &#39;nfs&#39;               =&gt; &#39;UNSET&#39;,
+        &#39;nfs4&#39;              =&gt; &#39;UNSET&#39;,
+        &#39;ssh&#39;               =&gt; &#39;UNSET&#39;,
+        &#39;ext4&#39;              =&gt; &#39;UNSET&#39;,
+        &#39;ext3&#39;              =&gt; &#39;UNSET&#39;,
+        &#39;ext2&#39;              =&gt; &#39;UNSET&#39;,
+        &#39;minix&#39;             =&gt; &#39;UNSET&#39;,
+        &#39;btrfs&#39;             =&gt; &#39;UNSET&#39;,
+        &#39;xfs&#39;               =&gt; &#39;UNSET&#39;,
+        &#39;link_delay&#39;        =&gt; &#39;UNSET&#39;,
+        &#39;kdump_post&#39;        =&gt; &#39;UNSET&#39;,
+        &#39;kdump_pre&#39;         =&gt; &#39;UNSET&#39;,
+        &#39;extra_bins&#39;        =&gt; &#39;UNSET&#39;,
+        &#39;extra_modules&#39;     =&gt; &#39;UNSET&#39;,
+        &#39;options&#39;           =&gt; &#39;UNSET&#39;,
+        &#39;blacklist&#39;         =&gt; &#39;UNSET&#39;,
+        &#39;sshkey&#39;            =&gt; &#39;UNSET&#39;,
+        &#39;default&#39;           =&gt; &#39;UNSET&#39;,
+        &#39;debug_mem_level&#39;   =&gt; &#39;UNSET&#39;,
+        &#39;force_rebuild&#39;     =&gt; &#39;UNSET&#39;,
+      }
+
+      if versioncmp($::operatingsystemmajrelease, &#39;7&#39;) &gt;= 0 {
+        $kernel_parameter_provider = &#39;grub2&#39;
+      } else {
+        $kernel_parameter_provider = &#39;grub&#39;
+      }
+    }
+
+    default: {
+      fail(&quot;Unsupported osfamily: ${::osfamily}, module ${module_name} only support osfamily RedHat&quot;)
+    }
+  }
+
+}</pre>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+
+      <div id="footer">
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
+</div>
+
+    </div>
+  </body>
+</html>
