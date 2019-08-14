@@ -1,69 +1,44 @@
-# == Class: kdump
+# @summary Manage kdump
 #
-# Full description of class kdump here.
+# @example Use default actions of ensuring kdump is running
+#   class { 'kdump': }
+# @example Example of how to disable kdump
+#   class { 'kdump':
+#     service_ensure => 'stopped',
+#     service_enable => false,
+#   }
 #
-# === Parameters
-#
-# [*package_name*]
-#   String.  Package name that provides kdump.
-#   Default: OS dependent
-#
-# [*service_name*]
-#   String.  Service name for kdump.
-#   Default: OS dependent
-#
-# [*service_ensure*]
+# @param enable
+#   Set state of kdump.
+#   `true` - Ensure service running and crashkernel kernel argument set
+#   `false` - Ensure service stopped and crashkernel kernel argument absent
+# @param crashkernel
+#   Kernel crashkernel argument value
+# @param crashkernel_bootmode
+#   The bootmode for crashkernel kernel argument
+# @param bootloader_config_path
+#   Path to boot loader config
+# @param package_name
+#   Package name that provides kdump.
+# @param service_name
+#   Service name for kdump.
+# @param service_ensure
 #   The service ensure property for kdump.
-#   Default: 'running'
-#
-# [*service_enable*]
+# @param service_enable
 #   The service enable property for kdump.
-#   Default: true
-#
-# [*service_hasstatus*]
+# @param service_hasstatus
 #   The service hasstatus property for kdump.
-#   Default: OS dependent
-#
-# [*service_hasrestart*]
+# @param service_hasrestart
 #   The service hasrestart property for kdump.
-#   Default: OS dependent
-#
-# [*service_autorestart*]
-#   Boolean.  This parameter defines if the kdump service
+# @param service_autorestart
+#   This parameter defines if the kdump service
 #   Should be restarted when the configuration file changes.
-#   Default: true
-#
-# [*config_path*]
+# @param config_path
 #   The configuration file path for kdump.
-#   Default: OS dependent
-#
-# [*kernel_parameter_provider*]
+# @param config_overrides
+#   Hash of config values to add to kdump.conf
+# @param kernel_parameter_provider
 #   The provider property for the kernel_parameter defined type.
-#   Default: OS dependent
-#
-# === Variables
-#
-# === Examples
-#
-#  Use default actions of ensuring kdump is running
-#
-#  class { 'kdump': }
-#
-#  Example of how to disable kdump
-#
-#  class { 'kdump':
-#    service_ensure => 'stopped',
-#    service_enable => false,
-#  }
-#
-# === Authors
-#
-# Trey Dockendorf <treydock@gmail.com>
-#
-# === Copyright
-#
-# Copyright 2013 Trey Dockendorf
-#
 class kdump (
   Boolean                        $enable                    = false,
   String                         $crashkernel               = 'auto',

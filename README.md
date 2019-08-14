@@ -55,11 +55,14 @@ Install gem dependencies
 
 Run unit tests
 
-    bundle exec rake test
+    bundle exec rake spec
 
 If you have Vagrant >= 1.2.0 installed you can run system tests
 
-    bundle exec rake beaker
+    BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=centos-7-vagrant bundle exec rake beaker
+    BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=centos-7-vagrant bundle exec rake beaker
+    BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=centos-6-vagrant bundle exec rake beaker
+    BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=centos-6-vagrant bundle exec rake beaker
 
 ## Further Information
 
