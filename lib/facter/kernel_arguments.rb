@@ -11,7 +11,7 @@
 #
 
 Facter.add(:kernel_arguments) do
-  confine :kernel => :linux
+  confine kernel: :linux
   setcode do
     cmdline_out = Facter::Core::Execution.execute('cat /proc/cmdline 2>/dev/null')
     cmdline_out

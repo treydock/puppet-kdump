@@ -6,7 +6,7 @@ describe 'kernel_arguments fact' do
   end
 
   context 'kernel is linux' do
-    it 'should return output from /proc/cmdline' do
+    it 'returns output from /proc/cmdline' do
       expected_value = my_fixture_read('cmdline1')
       allow(Facter::Core::Execution).to receive(:exec).with('uname -s').and_return('Linux')
       allow(Facter::Core::Execution).to receive(:execute).with('cat /proc/cmdline 2>/dev/null').and_return(expected_value)
