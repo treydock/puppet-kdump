@@ -1,0 +1,5 @@
+kdump::package_name: kexec-tools
+kdump::service_name: kdump
+kdump::service_hasstatus: true
+kdump::service_hasrestart: true
+kdump::config_path: /etc/kdump.conf
