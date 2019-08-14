@@ -15,7 +15,6 @@ describe 'kdump' do
                                   end
 
       it { is_expected.to create_class('kdump') }
-      it { is_expected.to contain_class('kdump::params') }
 
       it 'removes crashkernel parameter' do
         is_expected.to contain_kernel_parameter('crashkernel').with(ensure: 'absent',

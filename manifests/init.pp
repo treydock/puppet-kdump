@@ -45,18 +45,49 @@ class kdump (
   String                         $crashkernel               = 'auto',
   String                         $crashkernel_bootmode      = 'all',
   Optional[Stdlib::AbsolutePath] $bootloader_config_path    = undef,
-  String                         $package_name              = $kdump::params::package_name,
-  String                         $service_name              = $kdump::params::service_name,
+  String                         $package_name              = 'kexec-tools',
+  String                         $service_name              = 'kdump',
   Optional[String]               $service_ensure            = undef,
   Optional[Boolean]              $service_enable            = undef,
-  Boolean                        $service_hasstatus         = $kdump::params::service_hasstatus,
-  Boolean                        $service_hasrestart        = $kdump::params::service_hasrestart,
-  Stdlib::AbsolutePath           $config_path               = $kdump::params::config_path,
+  Boolean                        $service_hasstatus         = true,
+  Boolean                        $service_hasrestart        = true,
+  Stdlib::AbsolutePath           $config_path               = '/etc/kdump.conf',
   Hash                           $config_overrides          = {},
-  String                         $kernel_parameter_provider = $kdump::params::kernel_parameter_provider,
-) inherits kdump::params {
+  String                         $kernel_parameter_provider = 'grub2',
+) {
 
-  $config = merge($kdump::params::config_defaults, $config_overrides)
+  $osfamily = dig($facts, 'os', 'family')
+  if ! $osfamily in ['RedHat'] {
+    fail("Unsupported osfamily: ${osfamily}, module ${module_name} only support RedHat")
+  }
+
+  $config_defaults = {
+    'path'              => '/var/crash',
+    'core_collector'    => 'makedumpfile -c --message-level 1 -d 31',
+    'raw'               => 'UNSET',
+    'nfs'               => 'UNSET',
+    'nfs4'              => 'UNSET',
+    'ssh'               => 'UNSET',
+    'ext4'              => 'UNSET',
+    'ext3'              => 'UNSET',
+    'ext2'              => 'UNSET',
+    'minix'             => 'UNSET',
+    'btrfs'             => 'UNSET',
+    'xfs'               => 'UNSET',
+    'link_delay'        => 'UNSET',
+    'kdump_post'        => 'UNSET',
+    'kdump_pre'         => 'UNSET',
+    'extra_bins'        => 'UNSET',
+    'extra_modules'     => 'UNSET',
+    'options'           => 'UNSET',
+    'blacklist'         => 'UNSET',
+    'sshkey'            => 'UNSET',
+    'default'           => 'UNSET',
+    'debug_mem_level'   => 'UNSET',
+    'force_rebuild'     => 'UNSET',
+  }
+
+  $config = merge($config_defaults, $config_overrides)
 
   if $enable {
     $service_ensure_real = pick($service_ensure, 'running')
