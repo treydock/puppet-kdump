@@ -1,17 +1,5 @@
-# == Class: kdump::params
-#
-# The kdump configuration settings.
-#
-# === Variables
-#
-# === Authors
-#
-# Trey Dockendorf <treydock@gmail.com>
-#
-# === Copyright
-#
-# Copyright 2013 Trey Dockendorf
-#
+# @summary The kdump configuration settings.
+# @api private
 class kdump::params {
 
   case $::osfamily {
