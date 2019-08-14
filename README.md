@@ -31,6 +31,10 @@ The *config_overrides* is a hash that can be used to override the default config
       },
     }
 
+## Reference
+
+[http://treydock.github.io/puppet-kdump/](http://treydock.github.io/puppet-kdump/)
+
 ## Development
 
 ### Testing
