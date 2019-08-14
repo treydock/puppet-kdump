@@ -9,8 +9,6 @@ This module manages the kdump service.
 
 ## Usage
 
-### Class: kdump
-
 Use default actions of ensuring kdump is stopped
 
     class { 'kdump': }
@@ -32,13 +30,6 @@ The *config_overrides* is a hash that can be used to override the default config
         'core_collector' => 'makedumpfile -c --message-level 1 -d 31',
       },
     }
-
-## Compatibility
-
-Tested using
-
-* CentOS 5.9
-* CentOS 6.4
 
 ## Development
 

@@ -2,6 +2,7 @@
 #
 # @example Use default actions of ensuring kdump is running
 #   class { 'kdump': }
+#
 # @example Example of how to disable kdump
 #   class { 'kdump':
 #     service_ensure => 'stopped',
