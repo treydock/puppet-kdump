@@ -1,1 +1,2 @@
+---
 kdump::kernel_parameter_provider: grub2

@@ -1,0 +1,12 @@
+HOSTS:
+  debian8:
+    roles:
+      - client
+      - default
+    platform: debian-8-amd64
+    box: debian/jessie64
+    hypervisor: vagrant
+    vagrant_memsize: 1024
+CONFIG:
+  log_level: debug
+  type: foss

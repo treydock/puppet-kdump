@@ -40,6 +40,8 @@
 #   Hash of config values to add to kdump.conf
 # @param kernel_parameter_provider
 #   The provider property for the kernel_parameter defined type.
+# @param grub_kdump_cfg
+#   Path to grub2 kdump config. Only used on Ubuntu.
 class kdump (
   Boolean                        $enable                    = false,
   String                         $crashkernel               = 'auto',
@@ -54,11 +56,12 @@ class kdump (
   Stdlib::AbsolutePath           $config_path               = '/etc/kdump.conf',
   Hash                           $config_overrides          = {},
   String                         $kernel_parameter_provider = 'grub2',
+  Optional[String]               $grub_kdump_cfg            = undef,
 ) {
 
   $osfamily = dig($facts, 'os', 'family')
-  if ! $osfamily in ['RedHat'] {
-    fail("Unsupported osfamily: ${osfamily}, module ${module_name} only support RedHat")
+  if ! ($osfamily in ['RedHat', 'Debian']) {
+    fail("Unsupported osfamily: ${osfamily}, module ${module_name} only support RedHat and Debian")
   }
 
   $config_defaults = {
@@ -108,6 +111,14 @@ class kdump (
       provider => $kernel_parameter_provider,
     }
 
+    if $grub_kdump_cfg {
+      file { $grub_kdump_cfg:
+        ensure  => 'file',
+        content => "GRUB_CMDLINE_LINUX_DEFAULT=\"\$GRUB_CMDLINE_LINUX_DEFAULT crashkernel=${crashkernel}\"",
+        before  => Kernel_parameter['crashkernel'],
+      }
+    }
+
     package { 'kexec-tools':
       ensure => present,
       name   => $package_name,
@@ -133,6 +144,14 @@ class kdump (
     kernel_parameter { 'crashkernel':
       ensure   => 'absent',
       provider => $kernel_parameter_provider,
+    }
+
+    if $grub_kdump_cfg {
+      file { $grub_kdump_cfg:
+        ensure  => 'file',
+        content => "GRUB_CMDLINE_LINUX_DEFAULT=\"\$GRUB_CMDLINE_LINUX_DEFAULT\"",
+        before  => Kernel_parameter['crashkernel'],
+      }
     }
 
     if $::kernel_arguments =~ /crashkernel/ {
