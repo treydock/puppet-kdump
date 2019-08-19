@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.19
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -71,17 +71,17 @@ src="https://travis-ci.org/treydock/puppet-kdump.svg?branch=master"></a></p>
 
 <h2 id="label-Usage">Usage</h2>
 
-<h3 id="label-Class-3A+kdump">Class: kdump</h3>
-
 <p>Use default actions of ensuring kdump is stopped</p>
 
-<pre class="code ruby"><code class="ruby">class { &#39;kdump&#39;: }</code></pre>
+<pre class="code ruby"><code class="ruby">class { &#39;kdump&#39;: }
+</code></pre>
 
 <p>Example of how to enable kdump</p>
 
 <pre class="code ruby"><code class="ruby">class { &#39;kdump&#39;:
   enable =&gt; true,
-}</code></pre>
+}
+</code></pre>
 
 <p>Example of changing the configuration for kdump.conf.</p>
 
@@ -94,16 +94,13 @@ default configuration. Below is the default config_overrides.</p>
     &#39;path&#39; =&gt; &#39;/var/crash&#39;,
     &#39;core_collector&#39; =&gt; &#39;makedumpfile -c --message-level 1 -d 31&#39;,
   },
-}</code></pre>
+}
+</code></pre>
 
-<h2 id="label-Compatibility">Compatibility</h2>
+<h2 id="label-Reference">Reference</h2>
 
-<p>Tested using</p>
-<ul><li>
-<p>CentOS 5.9</p>
-</li><li>
-<p>CentOS 6.4</p>
-</li></ul>
+<p><a
+href="http://treydock.github.io/puppet-kdump/">treydock.github.io/puppet-kdump/</a></p>
 
 <h2 id="label-Development">Development</h2>
 
@@ -123,12 +120,23 @@ default configuration. Below is the default config_overrides.</p>
 
 <p>Run unit tests</p>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rake'>rake</span> <span class='id identifier rubyid_test'>test</span>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rake'>rake</span> <span class='id identifier rubyid_spec'>spec</span>
 </code></pre>
 
 <p>If you have Vagrant &gt;= 1.2.0 installed you can run system tests</p>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rake'>rake</span> <span class='id identifier rubyid_beaker'>beaker</span>
+<pre class="code ruby"><code class="ruby">BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=centos-7-vagrant bundle exec rake beaker
+BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=centos-7-vagrant bundle exec rake beaker
+BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=centos-6-vagrant bundle exec rake beaker
+BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=centos-6-vagrant bundle exec rake beaker
+BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=ubuntu-1604-vagrant bundle exec rake beaker
+BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=ubuntu-1604-vagrant bundle exec rake beaker
+BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=ubuntu-1804-vagrant bundle exec rake beaker
+BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=ubuntu-1804-vagrant bundle exec rake beaker
+BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=debian-8-vagrant bundle exec rake beaker
+BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=debian-8-vagrant bundle exec rake beaker
+BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=debian-9-vagrant bundle exec rake beaker
+BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=debian-8-vagrant bundle exec rake beaker
 </code></pre>
 
 <h2 id="label-Further+Information">Further Information</h2>

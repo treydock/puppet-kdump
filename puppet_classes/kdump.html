@@ -6,7 +6,7 @@
 <title>
   Puppet Class: kdump
   
-    &mdash; Documentation by YARD 0.9.19
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -62,11 +62,6 @@
       <div id="content"><h1>Puppet Class: kdump</h1>
 <div class="box_info">
   
-  <dl>
-    <dt>Inherits:</dt>
-    <dd><span class='object_link'><a href="kdump_3A_3Aparams.html" title="puppet_classes::kdump::params (puppet_class)">kdump::params</a></span></dd>
-  </dl>
-  
   
   <dl>
     <dt>Defined in:</dt>
@@ -76,71 +71,41 @@
   </dl>
 </div>
 
+  <h2>Summary</h2>
+  Manage kdump
+
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
     
-<p>== Class: kdump</p>
-
-<p>Full description of class kdump here.</p>
-
-<p>=== Parameters</p>
-
-<p>[<em>package_name</em>]  String. Package name that provides kdump. 
-Default: OS dependent</p>
-
-<p>[<em>service_name</em>]  String. Service name for kdump.  Default: OS
-dependent</p>
-
-<p>[<em>service_ensure</em>]  The service ensure property for kdump.  Default:
-&#39;running&#39;</p>
-
-<p>[<em>service_enable</em>]  The service enable property for kdump.  Default:
-true</p>
-
-<p>[<em>service_hasstatus</em>]  The service hasstatus property for kdump. 
-Default: OS dependent</p>
-
-<p>[<em>service_hasrestart</em>]  The service hasrestart property for kdump. 
-Default: OS dependent</p>
-
-<p>[<em>service_autorestart</em>]  Boolean. This parameter defines if the
-kdump service  Should be restarted when the configuration file changes. 
-Default: true</p>
-
-<p>[<em>config_path</em>]  The configuration file path for kdump.  Default: OS
-dependent</p>
-
-<p>[<em>kernel_parameter_provider</em>]  The provider property for the
-kernel_parameter defined type.  Default: OS dependent</p>
-
-<p>=== Variables</p>
-
-<p>=== Examples</p>
-
-<p>Use default actions of ensuring kdump is running</p>
-
-<p>class { &#39;kdump&#39;: }</p>
-
-<p>Example of how to disable kdump</p>
-
-<p>class { &#39;kdump&#39;:  service_ensure =&gt; &#39;stopped&#39;, 
-service_enable =&gt; false,  }</p>
-
-<p>=== Authors</p>
-
-<p>Trey Dockendorf <a href="mailto:treydock@gmail.com">treydock@gmail.com</a></p>
-
-<p>=== Copyright</p>
-
-<p>Copyright 2013 Trey Dockendorf</p>
-
   </div>
 </div>
 
 
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Use default actions of ensuring kdump is running</p>
+</div></p>
+      
+      <pre class="example code"><code>class { &#39;kdump&#39;: }</code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Example of how to disable kdump</p>
+</div></p>
+      
+      <pre class="example code"><code>class { &#39;kdump&#39;:
+  service_ensure =&gt; &#39;stopped&#39;,
+  service_enable =&gt; false,
+}</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -153,6 +118,13 @@ service_enable =&gt; false,  }</p>
       
         <em class="default">(defaults to: <tt>false</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Set state of kdump. <code>true</code> - Ensure service running and
+crashkernel kernel argument set <code>false</code> - Ensure service stopped
+and crashkernel kernel argument absent</p>
+</div>
       
     </li>
   
@@ -167,6 +139,11 @@ service_enable =&gt; false,  }</p>
         <em class="default">(defaults to: <tt>&#39;auto&#39;</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Kernel crashkernel argument value</p>
+</div>
+      
     </li>
   
     <li>
@@ -179,6 +156,11 @@ service_enable =&gt; false,  }</p>
       
         <em class="default">(defaults to: <tt>&#39;all&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>The bootmode for crashkernel kernel argument</p>
+</div>
       
     </li>
   
@@ -193,6 +175,11 @@ service_enable =&gt; false,  }</p>
         <em class="default">(defaults to: <tt>undef</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Path to boot loader config</p>
+</div>
+      
     </li>
   
     <li>
@@ -203,8 +190,13 @@ service_enable =&gt; false,  }</p>
         <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>$kdump::params::package_name</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;kexec-tools&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Package name that provides kdump.</p>
+</div>
       
     </li>
   
@@ -216,8 +208,13 @@ service_enable =&gt; false,  }</p>
         <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>$kdump::params::service_name</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;kdump&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Service name for kdump.</p>
+</div>
       
     </li>
   
@@ -232,6 +229,11 @@ service_enable =&gt; false,  }</p>
         <em class="default">(defaults to: <tt>undef</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>The service ensure property for kdump.</p>
+</div>
+      
     </li>
   
     <li>
@@ -245,6 +247,11 @@ service_enable =&gt; false,  }</p>
         <em class="default">(defaults to: <tt>undef</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>The service enable property for kdump.</p>
+</div>
+      
     </li>
   
     <li>
@@ -255,8 +262,13 @@ service_enable =&gt; false,  }</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>$kdump::params::service_hasstatus</tt>)</em>
+        <em class="default">(defaults to: <tt>true</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>The service hasstatus property for kdump.</p>
+</div>
       
     </li>
   
@@ -268,8 +280,13 @@ service_enable =&gt; false,  }</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>$kdump::params::service_hasrestart</tt>)</em>
+        <em class="default">(defaults to: <tt>true</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>The service hasrestart property for kdump.</p>
+</div>
       
     </li>
   
@@ -281,8 +298,13 @@ service_enable =&gt; false,  }</p>
         <span class='type'>(<tt>Stdlib::AbsolutePath</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>$kdump::params::config_path</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;/etc/kdump.conf&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>The configuration file path for kdump.</p>
+</div>
       
     </li>
   
@@ -297,6 +319,11 @@ service_enable =&gt; false,  }</p>
         <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Hash of config values to add to kdump.conf</p>
+</div>
+      
     </li>
   
     <li>
@@ -307,8 +334,31 @@ service_enable =&gt; false,  }</p>
         <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>$kdump::params::kernel_parameter_provider</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;grub2&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>The provider property for the kernel_parameter defined type.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>grub_kdump_cfg</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Path to grub2 kdump config. Only used on Ubuntu.</p>
+</div>
       
     </li>
   
@@ -322,6 +372,31 @@ service_enable =&gt; false,  }</p>
         <pre class="lines">
 
 
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
 67
 68
 69
@@ -401,28 +476,83 @@ service_enable =&gt; false,  }</p>
 143
 144
 145
-146</pre>
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 67</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 42</span>
 
 class kdump (
   Boolean                        $enable                    = false,
   String                         $crashkernel               = &#39;auto&#39;,
   String                         $crashkernel_bootmode      = &#39;all&#39;,
   Optional[Stdlib::AbsolutePath] $bootloader_config_path    = undef,
-  String                         $package_name              = $kdump::params::package_name,
-  String                         $service_name              = $kdump::params::service_name,
+  String                         $package_name              = &#39;kexec-tools&#39;,
+  String                         $service_name              = &#39;kdump&#39;,
   Optional[String]               $service_ensure            = undef,
   Optional[Boolean]              $service_enable            = undef,
-  Boolean                        $service_hasstatus         = $kdump::params::service_hasstatus,
-  Boolean                        $service_hasrestart        = $kdump::params::service_hasrestart,
-  Stdlib::AbsolutePath           $config_path               = $kdump::params::config_path,
+  Boolean                        $service_hasstatus         = true,
+  Boolean                        $service_hasrestart        = true,
+  Stdlib::AbsolutePath           $config_path               = &#39;/etc/kdump.conf&#39;,
   Hash                           $config_overrides          = {},
-  String                         $kernel_parameter_provider = $kdump::params::kernel_parameter_provider,
-) inherits kdump::params {
+  String                         $kernel_parameter_provider = &#39;grub2&#39;,
+  Optional[String]               $grub_kdump_cfg            = undef,
+) {
 
-  $config = merge($kdump::params::config_defaults, $config_overrides)
+  $osfamily = dig($facts, &#39;os&#39;, &#39;family&#39;)
+  if ! ($osfamily in [&#39;RedHat&#39;, &#39;Debian&#39;]) {
+    fail(&quot;Unsupported osfamily: ${osfamily}, module ${module_name} only support RedHat and Debian&quot;)
+  }
+
+  $config_defaults = {
+    &#39;path&#39;              =&gt; &#39;/var/crash&#39;,
+    &#39;core_collector&#39;    =&gt; &#39;makedumpfile -c --message-level 1 -d 31&#39;,
+    &#39;raw&#39;               =&gt; &#39;UNSET&#39;,
+    &#39;nfs&#39;               =&gt; &#39;UNSET&#39;,
+    &#39;nfs4&#39;              =&gt; &#39;UNSET&#39;,
+    &#39;ssh&#39;               =&gt; &#39;UNSET&#39;,
+    &#39;ext4&#39;              =&gt; &#39;UNSET&#39;,
+    &#39;ext3&#39;              =&gt; &#39;UNSET&#39;,
+    &#39;ext2&#39;              =&gt; &#39;UNSET&#39;,
+    &#39;minix&#39;             =&gt; &#39;UNSET&#39;,
+    &#39;btrfs&#39;             =&gt; &#39;UNSET&#39;,
+    &#39;xfs&#39;               =&gt; &#39;UNSET&#39;,
+    &#39;link_delay&#39;        =&gt; &#39;UNSET&#39;,
+    &#39;kdump_post&#39;        =&gt; &#39;UNSET&#39;,
+    &#39;kdump_pre&#39;         =&gt; &#39;UNSET&#39;,
+    &#39;extra_bins&#39;        =&gt; &#39;UNSET&#39;,
+    &#39;extra_modules&#39;     =&gt; &#39;UNSET&#39;,
+    &#39;options&#39;           =&gt; &#39;UNSET&#39;,
+    &#39;blacklist&#39;         =&gt; &#39;UNSET&#39;,
+    &#39;sshkey&#39;            =&gt; &#39;UNSET&#39;,
+    &#39;default&#39;           =&gt; &#39;UNSET&#39;,
+    &#39;debug_mem_level&#39;   =&gt; &#39;UNSET&#39;,
+    &#39;force_rebuild&#39;     =&gt; &#39;UNSET&#39;,
+  }
+
+  $config = merge($config_defaults, $config_overrides)
 
   if $enable {
     $service_ensure_real = pick($service_ensure, &#39;running&#39;)
@@ -441,6 +571,14 @@ class kdump (
       target   =&gt; $bootloader_config_path,
       bootmode =&gt; $crashkernel_bootmode,
       provider =&gt; $kernel_parameter_provider,
+    }
+
+    if $grub_kdump_cfg {
+      file { $grub_kdump_cfg:
+        ensure  =&gt; &#39;file&#39;,
+        content =&gt; &quot;GRUB_CMDLINE_LINUX_DEFAULT=\&quot;\$GRUB_CMDLINE_LINUX_DEFAULT crashkernel=${crashkernel}\&quot;&quot;,
+        before  =&gt; Kernel_parameter[&#39;crashkernel&#39;],
+      }
     }
 
     package { &#39;kexec-tools&#39;:
@@ -468,6 +606,14 @@ class kdump (
     kernel_parameter { &#39;crashkernel&#39;:
       ensure   =&gt; &#39;absent&#39;,
       provider =&gt; $kernel_parameter_provider,
+    }
+
+    if $grub_kdump_cfg {
+      file { $grub_kdump_cfg:
+        ensure  =&gt; &#39;file&#39;,
+        content =&gt; &quot;GRUB_CMDLINE_LINUX_DEFAULT=\&quot;\$GRUB_CMDLINE_LINUX_DEFAULT\&quot;&quot;,
+        before  =&gt; Kernel_parameter[&#39;crashkernel&#39;],
+      }
     }
 
     if $::kernel_arguments =~ /crashkernel/ {
