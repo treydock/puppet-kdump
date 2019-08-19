@@ -1,4 +1,4 @@
-# Fact: kernel_arguments
+# Fact: kdump_kernel_arguments
 #
 # Purpose:
 #   This fact provides the arguments used for the currently running kernel
@@ -10,7 +10,7 @@
 #   Only supports Linux.
 #
 
-Facter.add(:kernel_arguments) do
+Facter.add(:kdump_kernel_arguments) do
   confine kernel: :linux
   setcode do
     cmdline_out = Facter::Core::Execution.execute('cat /proc/cmdline 2>/dev/null')

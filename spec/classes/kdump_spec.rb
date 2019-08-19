@@ -4,7 +4,7 @@ describe 'kdump' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) do
-        facts.merge(kernel_arguments: my_fixture_read('kernelargs-with-crash.txt'))
+        facts.merge(crashkernel: 'auto')
       end
 
       let(:kernel_parameter_provider) do
@@ -62,7 +62,7 @@ describe 'kdump' do
 
       context 'when kernel_arguments does not contain crashkernel' do
         let(:facts) do
-          facts.merge(kernel_arguments: my_fixture_read('kernelargs-without-crash.txt'))
+          facts.merge(crashkernel: false)
         end
 
         it do
@@ -109,7 +109,7 @@ describe 'kdump' do
 
         context 'when kernel_arguments does not contain crashkernel' do
           let(:facts) do
-            facts.merge(kernel_arguments: my_fixture_read('kernelargs-without-crash.txt'))
+            facts.merge(crashkernel: false)
           end
 
           it do

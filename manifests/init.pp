@@ -132,7 +132,7 @@ class kdump (
       notify  => Service['kdump'],
     }
 
-    if $::kernel_arguments !~ /crashkernel/ {
+    if ! $facts['crashkernel'] {
       notify { 'kdump':
         message => 'A reboot is required to fully enable the crashkernel'
       }
@@ -151,7 +151,7 @@ class kdump (
       }
     }
 
-    if $::kernel_arguments =~ /crashkernel/ {
+    if $facts['crashkernel'] {
       notify { 'kdump':
         message => 'A reboot is required to fully disable the crashkernel'
       }
