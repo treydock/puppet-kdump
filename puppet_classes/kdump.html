@@ -89,19 +89,18 @@
     
       
         <p class="example_title"><div class='inline'>
-<p>Use default actions of ensuring kdump is running</p>
+<p>Use default actions of ensuring kdump is stopped</p>
 </div></p>
       
       <pre class="example code"><code>class { &#39;kdump&#39;: }</code></pre>
     
       
         <p class="example_title"><div class='inline'>
-<p>Example of how to disable kdump</p>
+<p>Example of how to enable kdump</p>
 </div></p>
       
       <pre class="example code"><code>class { &#39;kdump&#39;:
-  service_ensure =&gt; &#39;stopped&#39;,
-  service_enable =&gt; false,
+  enable =&gt; true,
 }</code></pre>
     
   </div>
@@ -372,6 +371,7 @@ and crashkernel kernel argument absent</p>
         <pre class="lines">
 
 
+41
 42
 43
 44
@@ -499,10 +499,14 @@ and crashkernel kernel argument absent</p>
 166
 167
 168
-169</pre>
+169
+170
+171
+172
+173</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 42</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 41</span>
 
 class kdump (
   Boolean                        $enable                    = false,
@@ -555,7 +559,12 @@ class kdump (
   $config = merge($config_defaults, $config_overrides)
 
   if $enable {
-    $service_ensure_real = pick($service_ensure, &#39;running&#39;)
+    if $facts[&#39;crashkernel&#39;] {
+      $service_ensure_default = &#39;running&#39;
+    } else {
+      $service_ensure_default = &#39;stopped&#39;
+    }
+    $service_ensure_real = pick($service_ensure, $service_ensure_default)
     $service_enable_real = pick($service_enable, true)
     $crashkernel_ensure  = &#39;present&#39;
   } else {
@@ -597,7 +606,7 @@ class kdump (
       notify  =&gt; Service[&#39;kdump&#39;],
     }
 
-    if $::kernel_arguments !~ /crashkernel/ {
+    if ! $facts[&#39;crashkernel&#39;] {
       notify { &#39;kdump&#39;:
         message =&gt; &#39;A reboot is required to fully enable the crashkernel&#39;
       }
@@ -616,7 +625,7 @@ class kdump (
       }
     }
 
-    if $::kernel_arguments =~ /crashkernel/ {
+    if $facts[&#39;crashkernel&#39;] {
       notify { &#39;kdump&#39;:
         message =&gt; &#39;A reboot is required to fully disable the crashkernel&#39;
       }
