@@ -2,9 +2,17 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v1.0.0](https://github.com/treydock/puppet-kdump/tree/v1.0.0) (2019-08-19)
+## [v0.4.1](https://github.com/treydock/puppet-kdump/tree/v0.4.1) (2019-08-19)
 
-[Full Changelog](https://github.com/treydock/puppet-kdump/compare/v0.3.0...v1.0.0)
+[Full Changelog](https://github.com/treydock/puppet-kdump/compare/v0.4.0...v0.4.1)
+
+### Fixed
+
+- Increase upper bound of stdlib module dependency [\#15](https://github.com/treydock/puppet-kdump/pull/15) ([treydock](https://github.com/treydock))
+
+## [v0.4.0](https://github.com/treydock/puppet-kdump/tree/v0.4.0) (2019-08-19)
+
+[Full Changelog](https://github.com/treydock/puppet-kdump/compare/v0.3.0...v0.4.0)
 
 ### Changed
 
