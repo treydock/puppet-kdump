@@ -1,0 +1,12 @@
+HOSTS:
+  ubuntu1604:
+    roles:
+      - client
+      - default
+    platform: ubuntu-16.04-amd64
+    box: ubuntu/xenial64
+    hypervisor: vagrant
+    vagrant_memsize: 1024
+CONFIG:
+  log_level: debug
+  type: foss

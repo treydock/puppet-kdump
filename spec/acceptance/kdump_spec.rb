@@ -24,11 +24,11 @@ describe 'kdump class:' do
       it 'runs successfully' do
         # It will fail because kdump service can not start until after reboot.
         apply_manifest_on(host, pp, catch_failures: false)
+        host.reboot
+        sleep 60
       end
 
-      it 'reboots and be idempotent' do
-        host.reboot
-        apply_manifest_on(host, pp, catch_changes: false)
+      it 'is idempotent' do
         apply_manifest_on(host, pp, catch_changes: true)
       end
 
@@ -55,6 +55,9 @@ describe 'kdump class:' do
       it 'runs successfully' do
         apply_manifest_on(host, pp_disable, catch_failures: true)
         host.reboot
+        sleep 60
+      end
+      it 'is idempotent' do
         apply_manifest_on(host, pp_disable, catch_changes: true)
       end
 

@@ -1,0 +1,2 @@
+---
+kdump::grub_kdump_cfg: /etc/default/grub.d/kdump-tools.cfg

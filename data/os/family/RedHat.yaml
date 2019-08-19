@@ -1,0 +1,3 @@
+---
+kdump::package_name: kexec-tools
+kdump::service_name: kdump

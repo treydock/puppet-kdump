@@ -7,12 +7,36 @@ describe 'kdump' do
         facts.merge(kernel_arguments: my_fixture_read('kernelargs-with-crash.txt'))
       end
 
-      kernel_parameter_provider = case facts[:operatingsystemmajrelease]
-                                  when '7'
-                                    'grub2'
-                                  else
-                                    'grub'
-                                  end
+      let(:kernel_parameter_provider) do
+        if facts[:os]['family'] == 'RedHat'
+          case facts[:os]['release']['major'].to_s
+          when '7'
+            'grub2'
+          else
+            'grub'
+          end
+        else
+          'grub2'
+        end
+      end
+
+      let(:package_name) do
+        case facts[:os]['family']
+        when 'Debian'
+          'kdump-tools'
+        when 'RedHat'
+          'kexec-tools'
+        end
+      end
+
+      let(:service_name) do
+        case facts[:os]['family']
+        when 'Debian'
+          'kdump-tools'
+        when 'RedHat'
+          'kdump'
+        end
+      end
 
       it { is_expected.to create_class('kdump') }
 
@@ -24,7 +48,7 @@ describe 'kdump' do
       it do
         is_expected.to contain_service('kdump').with(ensure: 'stopped',
                                                      enable: 'false',
-                                                     name: 'kdump',
+                                                     name: service_name,
                                                      hasstatus: 'true',
                                                      hasrestart: 'true')
       end
@@ -59,7 +83,7 @@ describe 'kdump' do
 
         it do
           is_expected.to contain_package('kexec-tools').with(ensure: 'present',
-                                                             name: 'kexec-tools',
+                                                             name: package_name,
                                                              before: 'File[/etc/kdump.conf]')
         end
 
@@ -96,7 +120,7 @@ describe 'kdump' do
         it do
           is_expected.to contain_service('kdump').with(ensure: 'running',
                                                        enable: 'true',
-                                                       name: 'kdump',
+                                                       name: service_name,
                                                        hasstatus: 'true',
                                                        hasrestart: 'true')
         end
