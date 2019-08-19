@@ -112,6 +112,7 @@ describe 'kdump' do
             facts.merge(crashkernel: false)
           end
 
+          it { is_expected.to contain_service('kdump').with_ensure('stopped') }
           it do
             is_expected.to contain_notify('kdump').with_message('A reboot is required to fully enable the crashkernel')
           end
