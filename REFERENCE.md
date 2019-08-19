@@ -15,18 +15,17 @@ Manage kdump
 
 #### Examples
 
-##### Use default actions of ensuring kdump is running
+##### Use default actions of ensuring kdump is stopped
 
 ```puppet
 class { 'kdump': }
 ```
 
-##### Example of how to disable kdump
+##### Example of how to enable kdump
 
 ```puppet
 class { 'kdump':
-  service_ensure => 'stopped',
-  service_enable => false,
+  enable => true,
 }
 ```
 
