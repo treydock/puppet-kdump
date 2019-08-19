@@ -31,9 +31,6 @@
 #   The service hasstatus property for kdump.
 # @param service_hasrestart
 #   The service hasrestart property for kdump.
-# @param service_autorestart
-#   This parameter defines if the kdump service
-#   Should be restarted when the configuration file changes.
 # @param config_path
 #   The configuration file path for kdump.
 # @param config_overrides

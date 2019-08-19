@@ -1,10 +1,10 @@
 {
   "name": "treydock-kdump",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "treydock",
   "summary": "Kdump Puppet module",
   "license": "Apache-2.0",
-  "source": "git://github.com/treydock/puppet-kdump.git",
+  "source": "https://github.com/treydock/puppet-kdump",
   "project_page": "https://github.com/treydock/puppet-kdump",
   "issues_url": "https://github.com/treydock/puppet-kdump/issues",
   "dependencies": [

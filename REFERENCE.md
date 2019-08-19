@@ -5,78 +5,30 @@
 
 **Classes**
 
-* [`kdump`](#kdump): == Class: kdump  Full description of class kdump here.  === Parameters  [*package_name*]   String.  Package name that provides kdump.   Defau
-* [`kdump::params`](#kdumpparams): == Class: kdump::params  The kdump configuration settings.  === Variables  === Authors  Trey Dockendorf <treydock@gmail.com>  === Copyright  
+* [`kdump`](#kdump): Manage kdump
 
 ## Classes
 
 ### kdump
 
-== Class: kdump
+Manage kdump
 
-Full description of class kdump here.
+#### Examples
 
-=== Parameters
+##### Use default actions of ensuring kdump is running
 
-[*package_name*]
-  String.  Package name that provides kdump.
-  Default: OS dependent
+```puppet
+class { 'kdump': }
+```
 
-[*service_name*]
-  String.  Service name for kdump.
-  Default: OS dependent
+##### Example of how to disable kdump
 
-[*service_ensure*]
-  The service ensure property for kdump.
-  Default: 'running'
-
-[*service_enable*]
-  The service enable property for kdump.
-  Default: true
-
-[*service_hasstatus*]
-  The service hasstatus property for kdump.
-  Default: OS dependent
-
-[*service_hasrestart*]
-  The service hasrestart property for kdump.
-  Default: OS dependent
-
-[*service_autorestart*]
-  Boolean.  This parameter defines if the kdump service
-  Should be restarted when the configuration file changes.
-  Default: true
-
-[*config_path*]
-  The configuration file path for kdump.
-  Default: OS dependent
-
-[*kernel_parameter_provider*]
-  The provider property for the kernel_parameter defined type.
-  Default: OS dependent
-
-=== Variables
-
-=== Examples
-
- Use default actions of ensuring kdump is running
-
- class { 'kdump': }
-
- Example of how to disable kdump
-
- class { 'kdump':
-   service_ensure => 'stopped',
-   service_enable => false,
- }
-
-=== Authors
-
-Trey Dockendorf <treydock@gmail.com>
-
-=== Copyright
-
-Copyright 2013 Trey Dockendorf
+```puppet
+class { 'kdump':
+  service_ensure => 'stopped',
+  service_enable => false,
+}
+```
 
 #### Parameters
 
@@ -86,7 +38,9 @@ The following parameters are available in the `kdump` class.
 
 Data type: `Boolean`
 
-
+Set state of kdump.
+`true` - Ensure service running and crashkernel kernel argument set
+`false` - Ensure service stopped and crashkernel kernel argument absent
 
 Default value: `false`
 
@@ -94,7 +48,7 @@ Default value: `false`
 
 Data type: `String`
 
-
+Kernel crashkernel argument value
 
 Default value: 'auto'
 
@@ -102,7 +56,7 @@ Default value: 'auto'
 
 Data type: `String`
 
-
+The bootmode for crashkernel kernel argument
 
 Default value: 'all'
 
@@ -110,7 +64,7 @@ Default value: 'all'
 
 Data type: `Optional[Stdlib::AbsolutePath]`
 
-
+Path to boot loader config
 
 Default value: `undef`
 
@@ -118,23 +72,23 @@ Default value: `undef`
 
 Data type: `String`
 
+Package name that provides kdump.
 
-
-Default value: $kdump::params::package_name
+Default value: 'kexec-tools'
 
 ##### `service_name`
 
 Data type: `String`
 
+Service name for kdump.
 
-
-Default value: $kdump::params::service_name
+Default value: 'kdump'
 
 ##### `service_ensure`
 
 Data type: `Optional[String]`
 
-
+The service ensure property for kdump.
 
 Default value: `undef`
 
@@ -142,7 +96,7 @@ Default value: `undef`
 
 Data type: `Optional[Boolean]`
 
-
+The service enable property for kdump.
 
 Default value: `undef`
 
@@ -150,31 +104,31 @@ Default value: `undef`
 
 Data type: `Boolean`
 
+The service hasstatus property for kdump.
 
-
-Default value: $kdump::params::service_hasstatus
+Default value: `true`
 
 ##### `service_hasrestart`
 
 Data type: `Boolean`
 
+The service hasrestart property for kdump.
 
-
-Default value: $kdump::params::service_hasrestart
+Default value: `true`
 
 ##### `config_path`
 
 Data type: `Stdlib::AbsolutePath`
 
+The configuration file path for kdump.
 
-
-Default value: $kdump::params::config_path
+Default value: '/etc/kdump.conf'
 
 ##### `config_overrides`
 
 Data type: `Hash`
 
-
+Hash of config values to add to kdump.conf
 
 Default value: {}
 
@@ -182,23 +136,15 @@ Default value: {}
 
 Data type: `String`
 
+The provider property for the kernel_parameter defined type.
 
+Default value: 'grub2'
 
-Default value: $kdump::params::kernel_parameter_provider
+##### `grub_kdump_cfg`
 
-### kdump::params
+Data type: `Optional[String]`
 
-== Class: kdump::params
+Path to grub2 kdump config. Only used on Ubuntu.
 
-The kdump configuration settings.
-
-=== Variables
-
-=== Authors
-
-Trey Dockendorf <treydock@gmail.com>
-
-=== Copyright
-
-Copyright 2013 Trey Dockendorf
+Default value: `undef`
 
