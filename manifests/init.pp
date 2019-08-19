@@ -1,12 +1,11 @@
 # @summary Manage kdump
 #
-# @example Use default actions of ensuring kdump is running
+# @example Use default actions of ensuring kdump is stopped
 #   class { 'kdump': }
 #
-# @example Example of how to disable kdump
+# @example Example of how to enable kdump
 #   class { 'kdump':
-#     service_ensure => 'stopped',
-#     service_enable => false,
+#     enable => true,
 #   }
 #
 # @param enable
@@ -90,7 +89,12 @@ class kdump (
   $config = merge($config_defaults, $config_overrides)
 
   if $enable {
-    $service_ensure_real = pick($service_ensure, 'running')
+    if $facts['crashkernel'] {
+      $service_ensure_default = 'running'
+    } else {
+      $service_ensure_default = 'stopped'
+    }
+    $service_ensure_real = pick($service_ensure, $service_ensure_default)
     $service_enable_real = pick($service_enable, true)
     $crashkernel_ensure  = 'present'
   } else {
