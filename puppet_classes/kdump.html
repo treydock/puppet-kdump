@@ -6,15 +6,15 @@
 <title>
   Puppet Class: kdump
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.27
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "puppet_classes::kdump";
   relpath = '../';
 </script>
@@ -345,6 +345,24 @@ and crashkernel kernel argument absent</p>
   
     <li>
       
+        <span class='name'>manage_kernel_parameter</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Controls if kernel_parameter resource is managed</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>grub_kdump_cfg</span>
       
       
@@ -364,6 +382,7 @@ and crashkernel kernel argument absent</p>
 </ul>
 
 
+
 </div><div class="method_details_list">
   <table class="source_code">
     <tr>
@@ -371,8 +390,6 @@ and crashkernel kernel argument absent</p>
         <pre class="lines">
 
 
-41
-42
 43
 44
 45
@@ -503,10 +520,21 @@ and crashkernel kernel argument absent</p>
 170
 171
 172
-173</pre>
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 41</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 43</span>
 
 class kdump (
   Boolean                        $enable                    = false,
@@ -522,6 +550,7 @@ class kdump (
   Stdlib::AbsolutePath           $config_path               = &#39;/etc/kdump.conf&#39;,
   Hash                           $config_overrides          = {},
   String                         $kernel_parameter_provider = &#39;grub2&#39;,
+  Boolean                        $manage_kernel_parameter   = true,
   Optional[String]               $grub_kdump_cfg            = undef,
 ) {
 
@@ -574,19 +603,23 @@ class kdump (
   }
 
   if $enable {
-    kernel_parameter { &#39;crashkernel&#39;:
-      ensure   =&gt; &#39;present&#39;,
-      value    =&gt; $crashkernel,
-      target   =&gt; $bootloader_config_path,
-      bootmode =&gt; $crashkernel_bootmode,
-      provider =&gt; $kernel_parameter_provider,
+    if $manage_kernel_parameter {
+      kernel_parameter { &#39;crashkernel&#39;:
+        ensure   =&gt; &#39;present&#39;,
+        value    =&gt; $crashkernel,
+        target   =&gt; $bootloader_config_path,
+        bootmode =&gt; $crashkernel_bootmode,
+        provider =&gt; $kernel_parameter_provider,
+      }
     }
 
     if $grub_kdump_cfg {
       file { $grub_kdump_cfg:
         ensure  =&gt; &#39;file&#39;,
         content =&gt; &quot;GRUB_CMDLINE_LINUX_DEFAULT=\&quot;\$GRUB_CMDLINE_LINUX_DEFAULT crashkernel=${crashkernel}\&quot;&quot;,
-        before  =&gt; Kernel_parameter[&#39;crashkernel&#39;],
+      }
+      if $manage_kernel_parameter {
+        File[$grub_kdump_cfg] -&gt; Kernel_parameter[&#39;crashkernel&#39;]
       }
     }
 
@@ -612,16 +645,20 @@ class kdump (
       }
     }
   } else {
-    kernel_parameter { &#39;crashkernel&#39;:
-      ensure   =&gt; &#39;absent&#39;,
-      provider =&gt; $kernel_parameter_provider,
+    if $manage_kernel_parameter {
+      kernel_parameter { &#39;crashkernel&#39;:
+        ensure   =&gt; &#39;absent&#39;,
+        provider =&gt; $kernel_parameter_provider,
+      }
     }
 
     if $grub_kdump_cfg {
       file { $grub_kdump_cfg:
         ensure  =&gt; &#39;file&#39;,
         content =&gt; &quot;GRUB_CMDLINE_LINUX_DEFAULT=\&quot;\$GRUB_CMDLINE_LINUX_DEFAULT\&quot;&quot;,
-        before  =&gt; Kernel_parameter[&#39;crashkernel&#39;],
+      }
+      if $manage_kernel_parameter {
+        File[$grub_kdump_cfg] -&gt; Kernel_parameter[&#39;crashkernel&#39;]
       }
     }
 
