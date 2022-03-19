@@ -7,19 +7,6 @@ describe 'kdump' do
         facts.merge(crashkernel: 'auto')
       end
 
-      let(:kernel_parameter_provider) do
-        if facts[:os]['family'] == 'RedHat'
-          case facts[:os]['release']['major'].to_s
-          when '7'
-            'grub2'
-          else
-            'grub'
-          end
-        else
-          'grub2'
-        end
-      end
-
       let(:package_name) do
         case facts[:os]['family']
         when 'Debian'
@@ -42,7 +29,7 @@ describe 'kdump' do
 
       it 'removes crashkernel parameter' do
         is_expected.to contain_kernel_parameter('crashkernel').with(ensure: 'absent',
-                                                                    provider: kernel_parameter_provider)
+                                                                    provider: 'grub2')
       end
 
       it do
@@ -78,7 +65,7 @@ describe 'kdump' do
                                                                       value: 'auto',
                                                                       target: nil,
                                                                       bootmode: 'all',
-                                                                      provider: kernel_parameter_provider)
+                                                                      provider: 'grub2')
         end
 
         it do

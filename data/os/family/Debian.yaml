@@ -1,4 +1,3 @@
 ---
 kdump::package_name: kdump-tools
 kdump::service_name: kdump-tools
-kdump::kernel_parameter_provider: grub2
