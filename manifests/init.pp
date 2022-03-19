@@ -36,6 +36,8 @@
 #   Hash of config values to add to kdump.conf
 # @param kernel_parameter_provider
 #   The provider property for the kernel_parameter defined type.
+# @param manage_kernel_parameter
+#   Controls if kernel_parameter resource is managed
 # @param grub_kdump_cfg
 #   Path to grub2 kdump config. Only used on Ubuntu.
 class kdump (
@@ -52,6 +54,7 @@ class kdump (
   Stdlib::AbsolutePath           $config_path               = '/etc/kdump.conf',
   Hash                           $config_overrides          = {},
   String                         $kernel_parameter_provider = 'grub2',
+  Boolean                        $manage_kernel_parameter   = true,
   Optional[String]               $grub_kdump_cfg            = undef,
 ) {
 
@@ -104,19 +107,23 @@ class kdump (
   }
 
   if $enable {
-    kernel_parameter { 'crashkernel':
-      ensure   => 'present',
-      value    => $crashkernel,
-      target   => $bootloader_config_path,
-      bootmode => $crashkernel_bootmode,
-      provider => $kernel_parameter_provider,
+    if $manage_kernel_parameter {
+      kernel_parameter { 'crashkernel':
+        ensure   => 'present',
+        value    => $crashkernel,
+        target   => $bootloader_config_path,
+        bootmode => $crashkernel_bootmode,
+        provider => $kernel_parameter_provider,
+      }
     }
 
     if $grub_kdump_cfg {
       file { $grub_kdump_cfg:
         ensure  => 'file',
         content => "GRUB_CMDLINE_LINUX_DEFAULT=\"\$GRUB_CMDLINE_LINUX_DEFAULT crashkernel=${crashkernel}\"",
-        before  => Kernel_parameter['crashkernel'],
+      }
+      if $manage_kernel_parameter {
+        File[$grub_kdump_cfg] -> Kernel_parameter['crashkernel']
       }
     }
 
@@ -142,16 +149,20 @@ class kdump (
       }
     }
   } else {
-    kernel_parameter { 'crashkernel':
-      ensure   => 'absent',
-      provider => $kernel_parameter_provider,
+    if $manage_kernel_parameter {
+      kernel_parameter { 'crashkernel':
+        ensure   => 'absent',
+        provider => $kernel_parameter_provider,
+      }
     }
 
     if $grub_kdump_cfg {
       file { $grub_kdump_cfg:
         ensure  => 'file',
         content => "GRUB_CMDLINE_LINUX_DEFAULT=\"\$GRUB_CMDLINE_LINUX_DEFAULT\"",
-        before  => Kernel_parameter['crashkernel'],
+      }
+      if $manage_kernel_parameter {
+        File[$grub_kdump_cfg] -> Kernel_parameter['crashkernel']
       }
     }
 
