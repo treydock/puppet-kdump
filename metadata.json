@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.13.0 <7.0.0"
+      "version_requirement": ">= 4.13.0 <9.0.0"
     },
     {
       "name": "herculesteam/augeasproviders_grub",
@@ -21,35 +21,31 @@
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "6",
-        "7"
+        "7",
+        "8"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "6",
         "7"
       ]
     },
     {
-      "operatingsystem": "Scientific",
+      "operatingsystem": "Rocky",
       "operatingsystemrelease": [
-        "6",
-        "7"
+        "8"
       ]
     },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "8",
         "9"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "16.04",
         "18.04"
       ]
     }
@@ -57,13 +53,13 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 5.0.0 < 7.0.0"
+      "version_requirement": ">= 6.0.0 < 8.0.0"
     }
   ],
   "tags": [
     "kdump"
   ],
-  "pdk-version": "1.10.0",
-  "template-url": "https://github.com/treydock/pdk-templates.git#master",
-  "template-ref": "heads/master-0-g68ecb62"
+  "pdk-version": "2.1.0",
+  "template-url": "https://github.com/treydock/pdk-templates#master",
+  "template-ref": "heads/master-0-g3b13f94"
 }
