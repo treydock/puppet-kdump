@@ -1,6 +1,6 @@
 {
   "name": "treydock-kdump",
-  "version": "0.4.1",
+  "version": "1.0.0",
   "author": "treydock",
   "summary": "Kdump Puppet module",
   "license": "Apache-2.0",
