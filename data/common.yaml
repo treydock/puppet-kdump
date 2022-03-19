@@ -1,3 +1,4 @@
 kdump::service_hasstatus: true
 kdump::service_hasrestart: true
 kdump::config_path: /etc/kdump.conf
+kdump::kernel_parameter_provider: grub2
