@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Fact: kdump_kernel_arguments
 #
 # Purpose:

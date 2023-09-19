@@ -57,7 +57,6 @@ class kdump (
   Boolean                        $manage_kernel_parameter   = true,
   Optional[String]               $grub_kdump_cfg            = undef,
 ) {
-
   $osfamily = dig($facts, 'os', 'family')
   if ! ($osfamily in ['RedHat', 'Debian']) {
     fail("Unsupported osfamily: ${osfamily}, module ${module_name} only support RedHat and Debian")
@@ -128,13 +127,13 @@ class kdump (
     }
 
     package { 'kexec-tools':
-      ensure => present,
+      ensure => 'installed',
       name   => $package_name,
       before => File['/etc/kdump.conf'],
     }
 
     file { '/etc/kdump.conf':
-      ensure  => present,
+      ensure  => 'file',
       path    => $config_path,
       content => template('kdump/kdump.conf.erb'),
       owner   => 'root',
@@ -145,7 +144,7 @@ class kdump (
 
     if ! $facts['crashkernel'] {
       notify { 'kdump':
-        message => 'A reboot is required to fully enable the crashkernel'
+        message => 'A reboot is required to fully enable the crashkernel',
       }
     }
   } else {
@@ -168,7 +167,7 @@ class kdump (
 
     if $facts['crashkernel'] {
       notify { 'kdump':
-        message => 'A reboot is required to fully disable the crashkernel'
+        message => 'A reboot is required to fully disable the crashkernel',
       }
     }
   }
@@ -180,5 +179,4 @@ class kdump (
     hasstatus  => $service_hasstatus,
     hasrestart => $service_hasrestart,
   }
-
 }
