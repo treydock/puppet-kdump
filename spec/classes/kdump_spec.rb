@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'kdump' do
   on_supported_os.each do |os, facts|
-    context "on #{os}" do
+    context "when #{os}" do
       let(:facts) do
         facts.merge(crashkernel: 'auto')
       end
@@ -69,13 +71,13 @@ describe 'kdump' do
         end
 
         it do
-          is_expected.to contain_package('kexec-tools').with(ensure: 'present',
+          is_expected.to contain_package('kexec-tools').with(ensure: 'installed',
                                                              name: package_name,
                                                              before: 'File[/etc/kdump.conf]')
         end
 
         it do
-          is_expected.to contain_file('/etc/kdump.conf').with(ensure: 'present',
+          is_expected.to contain_file('/etc/kdump.conf').with(ensure: 'file',
                                                               path: '/etc/kdump.conf',
                                                               owner: 'root',
                                                               group: 'root',
@@ -86,7 +88,7 @@ describe 'kdump' do
         it 'has default contents for /etc/kdump.conf' do
           verify_contents(catalogue, '/etc/kdump.conf', [
                             'core_collector makedumpfile -c --message-level 1 -d 31',
-                            'path /var/crash',
+                            'path /var/crash'
                           ])
         end
 
@@ -100,6 +102,7 @@ describe 'kdump' do
           end
 
           it { is_expected.to contain_service('kdump').with_ensure('stopped') }
+
           it do
             is_expected.to contain_notify('kdump').with_message('A reboot is required to fully enable the crashkernel')
           end
@@ -120,8 +123,8 @@ describe 'kdump' do
               config_overrides: {
                 'path' => '/var/crash',
                 'core_collector' => 'makedumpfile -c --message-level 1 -d 31',
-                'kdump_post' => '/var/crash/scripts/kdump-post.sh',
-              },
+                'kdump_post' => '/var/crash/scripts/kdump-post.sh'
+              }
             }
           end
 
@@ -129,7 +132,7 @@ describe 'kdump' do
             verify_contents(catalogue, '/etc/kdump.conf', [
                               'core_collector makedumpfile -c --message-level 1 -d 31',
                               'kdump_post /var/crash/scripts/kdump-post.sh',
-                              'path /var/crash',
+                              'path /var/crash'
                             ])
           end
         end

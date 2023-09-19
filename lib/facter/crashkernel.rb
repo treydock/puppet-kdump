@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Fact: crashkernel
 #
 # Purpose:
@@ -15,10 +17,8 @@ Facter.add(:crashkernel) do
   setcode do
     crashkernel = false
     kernel_arguments = Facter.value(:kdump_kernel_arguments)
-    if kernel_arguments
-      if kernel_arguments =~ %r{crashkernel=(\S+)}
-        crashkernel = Regexp.last_match(1)
-      end
+    if kernel_arguments && (kernel_arguments =~ %r{crashkernel=(\S+)})
+      crashkernel = Regexp.last_match(1)
     end
     crashkernel
   end

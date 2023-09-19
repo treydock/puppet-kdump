@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe 'kdump class:' do
   let(:pp) do
-    <<-EOS
+    <<-PP
      # Set crashkernel variable because auto
      # does not work in RAM < 1G which could
      # happen in the hypervisor
@@ -10,17 +12,17 @@ describe 'kdump class:' do
         enable => true,
         crashkernel => '128M'
        }
-    EOS
+    PP
   end
 
   let(:pp_disable) do
-    <<-EOS
+    <<-PP
       class { 'kdump': enable => false }
-    EOS
+    PP
   end
 
   hosts.each do |host|
-    context 'enable => true' do
+    context 'when enable => true' do
       it 'runs successfully' do
         # It will fail because kdump service can not start until after reboot.
         apply_manifest_on(host, pp, catch_failures: false)
@@ -51,12 +53,13 @@ describe 'kdump class:' do
       #      end
     end
 
-    context 'disable kdump' do
+    context 'when disable kdump' do
       it 'runs successfully' do
         apply_manifest_on(host, pp_disable, catch_failures: true)
         host.reboot
         sleep 60
       end
+
       it 'is idempotent' do
         apply_manifest_on(host, pp_disable, catch_changes: true)
       end
