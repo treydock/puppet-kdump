@@ -1,7 +1,8 @@
 fixtures:
-  repositories:
-    stdlib: https://github.com/puppetlabs/puppetlabs-stdlib.git
-    augeasproviders_core: https://github.com/hercules-team/augeasproviders_core.git
-    augeasproviders_grub: https://github.com/hercules-team/augeasproviders_grub.git
-  symlinks:
-    kdump: "#{source_dir}"
+  forge_modules:
+    stdlib:
+      repo: puppetlabs/stdlib
+    augeasproviders_core:
+      repo: puppet/augeasproviders_core
+    augeasproviders_grub:
+      repo: puppet/augeasproviders_grub
