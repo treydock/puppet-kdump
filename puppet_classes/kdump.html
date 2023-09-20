@@ -6,7 +6,7 @@
 <title>
   Puppet Class: kdump
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
@@ -82,6 +82,7 @@
 </div>
 
 
+
 <div class="tags">
   
   <div class="examples">
@@ -120,9 +121,7 @@
       
         &mdash;
         <div class='inline'>
-<p>Set state of kdump. <code>true</code> - Ensure service running and
-crashkernel kernel argument set <code>false</code> - Ensure service stopped
-and crashkernel kernel argument absent</p>
+<p>Set state of kdump. <code>true</code> - Ensure service running and crashkernel kernel argument set <code>false</code> - Ensure service stopped and crashkernel kernel argument absent</p>
 </div>
       
     </li>
@@ -529,9 +528,7 @@ and crashkernel kernel argument absent</p>
 179
 180
 181
-182
-183
-184</pre>
+182</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/init.pp', line 43</span>
@@ -553,7 +550,6 @@ class kdump (
   Boolean                        $manage_kernel_parameter   = true,
   Optional[String]               $grub_kdump_cfg            = undef,
 ) {
-
   $osfamily = dig($facts, &#39;os&#39;, &#39;family&#39;)
   if ! ($osfamily in [&#39;RedHat&#39;, &#39;Debian&#39;]) {
     fail(&quot;Unsupported osfamily: ${osfamily}, module ${module_name} only support RedHat and Debian&quot;)
@@ -624,13 +620,13 @@ class kdump (
     }
 
     package { &#39;kexec-tools&#39;:
-      ensure =&gt; present,
+      ensure =&gt; &#39;installed&#39;,
       name   =&gt; $package_name,
       before =&gt; File[&#39;/etc/kdump.conf&#39;],
     }
 
     file { &#39;/etc/kdump.conf&#39;:
-      ensure  =&gt; present,
+      ensure  =&gt; &#39;file&#39;,
       path    =&gt; $config_path,
       content =&gt; template(&#39;kdump/kdump.conf.erb&#39;),
       owner   =&gt; &#39;root&#39;,
@@ -641,7 +637,7 @@ class kdump (
 
     if ! $facts[&#39;crashkernel&#39;] {
       notify { &#39;kdump&#39;:
-        message =&gt; &#39;A reboot is required to fully enable the crashkernel&#39;
+        message =&gt; &#39;A reboot is required to fully enable the crashkernel&#39;,
       }
     }
   } else {
@@ -664,7 +660,7 @@ class kdump (
 
     if $facts[&#39;crashkernel&#39;] {
       notify { &#39;kdump&#39;:
-        message =&gt; &#39;A reboot is required to fully disable the crashkernel&#39;
+        message =&gt; &#39;A reboot is required to fully disable the crashkernel&#39;,
       }
     }
   }
@@ -676,7 +672,6 @@ class kdump (
     hasstatus  =&gt; $service_hasstatus,
     hasrestart =&gt; $service_hasrestart,
   }
-
 }</pre>
       </td>
     </tr>

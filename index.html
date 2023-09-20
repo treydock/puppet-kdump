@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
@@ -60,10 +60,7 @@
       <div id="content"><div id='filecontents'>
 <h1 id="label-puppet-kdump">puppet-kdump</h1>
 
-<p><a href="https://forge.puppetlabs.com/treydock/kdump"><img
-src="http://img.shields.io/puppetforge/v/treydock/kdump.svg"></a> <a
-href="https://travis-ci.org/treydock/puppet-kdump"><img
-src="https://travis-ci.org/treydock/puppet-kdump.svg?branch=master"></a></p>
+<p><a href="https://forge.puppetlabs.com/treydock/kdump"><img src="http://img.shields.io/puppetforge/v/treydock/kdump.svg"></a> <a href="https://travis-ci.org/treydock/puppet-kdump"><img src="https://travis-ci.org/treydock/puppet-kdump.svg?branch=master"></a></p>
 
 <h2 id="label-Overview">Overview</h2>
 
@@ -85,8 +82,7 @@ src="https://travis-ci.org/treydock/puppet-kdump.svg?branch=master"></a></p>
 
 <p>Example of changing the configuration for kdump.conf.</p>
 
-<p>The <em>config_overrides</em> is a hash that can be used to override the
-default configuration. Below is the default config_overrides.</p>
+<p>The <em>config_overrides</em> is a hash that can be used to override the default configuration. Below is the default config_overrides.</p>
 
 <pre class="code ruby"><code class="ruby">class { &#39;kdump&#39;:
   enable =&gt; true,
@@ -99,8 +95,7 @@ default configuration. Below is the default config_overrides.</p>
 
 <h2 id="label-Reference">Reference</h2>
 
-<p><a
-href="http://treydock.github.io/puppet-kdump/">treydock.github.io/puppet-kdump/</a></p>
+<p><a href="http://treydock.github.io/puppet-kdump/">treydock.github.io/puppet-kdump/</a></p>
 
 <h2 id="label-Development">Development</h2>
 
@@ -123,26 +118,9 @@ href="http://treydock.github.io/puppet-kdump/">treydock.github.io/puppet-kdump/<
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rake'>rake</span> <span class='id identifier rubyid_spec'>spec</span>
 </code></pre>
 
-<p>If you have Vagrant &gt;= 1.2.0 installed you can run system tests</p>
-
-<pre class="code ruby"><code class="ruby">BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=centos-7-vagrant bundle exec rake beaker
-BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=centos-7-vagrant bundle exec rake beaker
-BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=centos-6-vagrant bundle exec rake beaker
-BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=centos-6-vagrant bundle exec rake beaker
-BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=ubuntu-1604-vagrant bundle exec rake beaker
-BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=ubuntu-1604-vagrant bundle exec rake beaker
-BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=ubuntu-1804-vagrant bundle exec rake beaker
-BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=ubuntu-1804-vagrant bundle exec rake beaker
-BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=debian-8-vagrant bundle exec rake beaker
-BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=debian-8-vagrant bundle exec rake beaker
-BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=debian-9-vagrant bundle exec rake beaker
-BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=debian-8-vagrant bundle exec rake beaker
-</code></pre>
-
 <h2 id="label-Further+Information">Further Information</h2>
 <ul><li>
-<p><a
-href="https://www.kernel.org/doc/Documentation/kdump/kdump.txt">www.kernel.org/doc/Documentation/kdump/kdump.txt</a></p>
+<p><a href="https://www.kernel.org/doc/Documentation/kdump/kdump.txt">www.kernel.org/doc/Documentation/kdump/kdump.txt</a></p>
 </li></ul>
 </div></div>
 
