@@ -52,21 +52,6 @@ Run unit tests
 
     bundle exec rake spec
 
-If you have Vagrant >= 1.2.0 installed you can run system tests
-
-    BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=centos-7-vagrant bundle exec rake beaker
-    BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=centos-7-vagrant bundle exec rake beaker
-    BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=centos-6-vagrant bundle exec rake beaker
-    BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=centos-6-vagrant bundle exec rake beaker
-    BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=ubuntu-1604-vagrant bundle exec rake beaker
-    BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=ubuntu-1604-vagrant bundle exec rake beaker
-    BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=ubuntu-1804-vagrant bundle exec rake beaker
-    BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=ubuntu-1804-vagrant bundle exec rake beaker
-    BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=debian-8-vagrant bundle exec rake beaker
-    BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=debian-8-vagrant bundle exec rake beaker
-    BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=debian-9-vagrant bundle exec rake beaker
-    BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=debian-8-vagrant bundle exec rake beaker
-
 ## Further Information
 
 * https://www.kernel.org/doc/Documentation/kdump/kdump.txt

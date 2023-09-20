@@ -9,6 +9,14 @@ describe 'kdump' do
         facts.merge(crashkernel: 'auto')
       end
 
+      let(:crashkernel) do
+        if facts[:os]['family'] == 'RedHat' && facts[:os]['release']['major'].to_s == '9'
+          '1G-4G:192M,4G-64G:256M,64G:512M'
+        else
+          'auto'
+        end
+      end
+
       let(:package_name) do
         case facts[:os]['family']
         when 'Debian'
@@ -64,7 +72,7 @@ describe 'kdump' do
 
         it do
           is_expected.to contain_kernel_parameter('crashkernel').with(ensure: 'present',
-                                                                      value: 'auto',
+                                                                      value: crashkernel,
                                                                       target: nil,
                                                                       bootmode: 'all',
                                                                       provider: 'grub2')
