@@ -11,8 +11,6 @@
   delete: true
 appveyor.yml:
   delete: true
-spec/acceptance/nodesets/el9.yml:
-  delete: true
 spec/acceptance/nodesets/debian-10.yml:
   delete: true
 spec/acceptance/nodesets/debian-11.yml:
