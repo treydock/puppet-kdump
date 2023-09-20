@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v2.0.0](https://github.com/treydock/puppet-kdump/tree/v2.0.0) (2023-09-20)
+
+[Full Changelog](https://github.com/treydock/puppet-kdump/compare/v1.0.0...v2.0.0)
+
+### Changed
+
+- Update Debian and Ubuntu support [\#24](https://github.com/treydock/puppet-kdump/pull/24) ([treydock](https://github.com/treydock))
+- BREAKING: Updates, Drop Puppet 6 and add Puppet 8 support [\#21](https://github.com/treydock/puppet-kdump/pull/21) ([treydock](https://github.com/treydock))
+
+### Added
+
+- Support EL9 [\#23](https://github.com/treydock/puppet-kdump/pull/23) ([treydock](https://github.com/treydock))
+- Update module dependencies [\#22](https://github.com/treydock/puppet-kdump/pull/22) ([treydock](https://github.com/treydock))
+
 ## [v1.0.0](https://github.com/treydock/puppet-kdump/tree/v1.0.0) (2022-03-19)
 
 [Full Changelog](https://github.com/treydock/puppet-kdump/compare/v0.4.1...v1.0.0)

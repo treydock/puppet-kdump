@@ -34,23 +34,23 @@ class { 'kdump':
 
 The following parameters are available in the `kdump` class:
 
-* [`enable`](#enable)
-* [`crashkernel`](#crashkernel)
-* [`crashkernel_bootmode`](#crashkernel_bootmode)
-* [`bootloader_config_path`](#bootloader_config_path)
-* [`package_name`](#package_name)
-* [`service_name`](#service_name)
-* [`service_ensure`](#service_ensure)
-* [`service_enable`](#service_enable)
-* [`service_hasstatus`](#service_hasstatus)
-* [`service_hasrestart`](#service_hasrestart)
-* [`config_path`](#config_path)
-* [`config_overrides`](#config_overrides)
-* [`kernel_parameter_provider`](#kernel_parameter_provider)
-* [`manage_kernel_parameter`](#manage_kernel_parameter)
-* [`grub_kdump_cfg`](#grub_kdump_cfg)
+* [`enable`](#-kdump--enable)
+* [`crashkernel`](#-kdump--crashkernel)
+* [`crashkernel_bootmode`](#-kdump--crashkernel_bootmode)
+* [`bootloader_config_path`](#-kdump--bootloader_config_path)
+* [`package_name`](#-kdump--package_name)
+* [`service_name`](#-kdump--service_name)
+* [`service_ensure`](#-kdump--service_ensure)
+* [`service_enable`](#-kdump--service_enable)
+* [`service_hasstatus`](#-kdump--service_hasstatus)
+* [`service_hasrestart`](#-kdump--service_hasrestart)
+* [`config_path`](#-kdump--config_path)
+* [`config_overrides`](#-kdump--config_overrides)
+* [`kernel_parameter_provider`](#-kdump--kernel_parameter_provider)
+* [`manage_kernel_parameter`](#-kdump--manage_kernel_parameter)
+* [`grub_kdump_cfg`](#-kdump--grub_kdump_cfg)
 
-##### <a name="enable"></a>`enable`
+##### <a name="-kdump--enable"></a>`enable`
 
 Data type: `Boolean`
 
@@ -58,9 +58,9 @@ Set state of kdump.
 `true` - Ensure service running and crashkernel kernel argument set
 `false` - Ensure service stopped and crashkernel kernel argument absent
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="crashkernel"></a>`crashkernel`
+##### <a name="-kdump--crashkernel"></a>`crashkernel`
 
 Data type: `String`
 
@@ -68,7 +68,7 @@ Kernel crashkernel argument value
 
 Default value: `'auto'`
 
-##### <a name="crashkernel_bootmode"></a>`crashkernel_bootmode`
+##### <a name="-kdump--crashkernel_bootmode"></a>`crashkernel_bootmode`
 
 Data type: `String`
 
@@ -76,15 +76,15 @@ The bootmode for crashkernel kernel argument
 
 Default value: `'all'`
 
-##### <a name="bootloader_config_path"></a>`bootloader_config_path`
+##### <a name="-kdump--bootloader_config_path"></a>`bootloader_config_path`
 
 Data type: `Optional[Stdlib::AbsolutePath]`
 
 Path to boot loader config
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="package_name"></a>`package_name`
+##### <a name="-kdump--package_name"></a>`package_name`
 
 Data type: `String`
 
@@ -92,7 +92,7 @@ Package name that provides kdump.
 
 Default value: `'kexec-tools'`
 
-##### <a name="service_name"></a>`service_name`
+##### <a name="-kdump--service_name"></a>`service_name`
 
 Data type: `String`
 
@@ -100,39 +100,39 @@ Service name for kdump.
 
 Default value: `'kdump'`
 
-##### <a name="service_ensure"></a>`service_ensure`
+##### <a name="-kdump--service_ensure"></a>`service_ensure`
 
 Data type: `Optional[String]`
 
 The service ensure property for kdump.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="service_enable"></a>`service_enable`
+##### <a name="-kdump--service_enable"></a>`service_enable`
 
 Data type: `Optional[Boolean]`
 
 The service enable property for kdump.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="service_hasstatus"></a>`service_hasstatus`
+##### <a name="-kdump--service_hasstatus"></a>`service_hasstatus`
 
 Data type: `Boolean`
 
 The service hasstatus property for kdump.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="service_hasrestart"></a>`service_hasrestart`
+##### <a name="-kdump--service_hasrestart"></a>`service_hasrestart`
 
 Data type: `Boolean`
 
 The service hasrestart property for kdump.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="config_path"></a>`config_path`
+##### <a name="-kdump--config_path"></a>`config_path`
 
 Data type: `Stdlib::AbsolutePath`
 
@@ -140,7 +140,7 @@ The configuration file path for kdump.
 
 Default value: `'/etc/kdump.conf'`
 
-##### <a name="config_overrides"></a>`config_overrides`
+##### <a name="-kdump--config_overrides"></a>`config_overrides`
 
 Data type: `Hash`
 
@@ -148,7 +148,7 @@ Hash of config values to add to kdump.conf
 
 Default value: `{}`
 
-##### <a name="kernel_parameter_provider"></a>`kernel_parameter_provider`
+##### <a name="-kdump--kernel_parameter_provider"></a>`kernel_parameter_provider`
 
 Data type: `String`
 
@@ -156,19 +156,19 @@ The provider property for the kernel_parameter defined type.
 
 Default value: `'grub2'`
 
-##### <a name="manage_kernel_parameter"></a>`manage_kernel_parameter`
+##### <a name="-kdump--manage_kernel_parameter"></a>`manage_kernel_parameter`
 
 Data type: `Boolean`
 
 Controls if kernel_parameter resource is managed
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="grub_kdump_cfg"></a>`grub_kdump_cfg`
+##### <a name="-kdump--grub_kdump_cfg"></a>`grub_kdump_cfg`
 
 Data type: `Optional[String]`
 
 Path to grub2 kdump config. Only used on Ubuntu.
 
-Default value: ``undef``
+Default value: `undef`
 
