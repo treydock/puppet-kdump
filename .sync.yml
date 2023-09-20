@@ -11,11 +11,3 @@
   delete: true
 appveyor.yml:
   delete: true
-spec/acceptance/nodesets/debian-10.yml:
-  delete: true
-spec/acceptance/nodesets/debian-11.yml:
-  delete: true
-spec/acceptance/nodesets/ubuntu-2004.yml:
-  delete: true
-spec/acceptance/nodesets/ubuntu-2204.yml:
-  delete: true
