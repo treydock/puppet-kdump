@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v2.0.1](https://github.com/treydock/puppet-kdump/tree/v2.0.1) (2024-01-09)
+
+[Full Changelog](https://github.com/treydock/puppet-kdump/compare/v2.0.0...v2.0.1)
+
+### Fixed
+
+- Fix merge function stdlib deprecation message [\#25](https://github.com/treydock/puppet-kdump/pull/25) ([ynnckvdv](https://github.com/ynnckvdv))
+
 ## [v2.0.0](https://github.com/treydock/puppet-kdump/tree/v2.0.0) (2023-09-20)
 
 [Full Changelog](https://github.com/treydock/puppet-kdump/compare/v1.0.0...v2.0.0)
