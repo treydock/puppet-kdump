@@ -88,7 +88,7 @@ class kdump (
     'force_rebuild'     => 'UNSET',
   }
 
-  $config = merge($config_defaults, $config_overrides)
+  $config = $config_defaults + $config_overrides
 
   if $enable {
     if $facts['crashkernel'] {
