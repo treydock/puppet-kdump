@@ -11,7 +11,7 @@ describe 'kdump' do
 
       let(:crashkernel) do
         if facts[:os]['family'] == 'RedHat' && facts[:os]['release']['major'].to_s == '9'
-          '1G-4G:192M,4G-64G:256M,64G:512M'
+          '1G-4G:192M,4G-64G:256M,64G-:512M'
         else
           'auto'
         end
