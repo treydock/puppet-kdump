@@ -149,9 +149,19 @@ class kdump (
     }
   } else {
     if $manage_kernel_parameter {
-      kernel_parameter { 'crashkernel':
-        ensure   => 'absent',
-        provider => $kernel_parameter_provider,
+      if $facts['os']['family'] == 'RedHat' and versioncmp($facts['os']['release']['major'], '9') >= 0 {
+        kernel_parameter { 'crashkernel':
+          ensure   => 'present',
+          value    => 'no',
+          target   => $bootloader_config_path,
+          bootmode => $crashkernel_bootmode,
+          provider => $kernel_parameter_provider,
+        }
+      } else {
+        kernel_parameter { 'crashkernel':
+          ensure   => 'absent',
+          provider => $kernel_parameter_provider,
+        }
       }
     }
 

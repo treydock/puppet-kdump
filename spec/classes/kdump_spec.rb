@@ -38,8 +38,16 @@ describe 'kdump' do
       it { is_expected.to create_class('kdump') }
 
       it 'removes crashkernel parameter' do
-        is_expected.to contain_kernel_parameter('crashkernel').with(ensure: 'absent',
-                                                                    provider: 'grub2')
+        if facts[:os]['family'] == 'RedHat' && facts[:os]['release']['major'].to_i >= 9
+          is_expected.to contain_kernel_parameter('crashkernel').with(ensure: 'present',
+                                                                      value: 'no',
+                                                                      target: nil,
+                                                                      bootmode: 'all',
+                                                                      provider: 'grub2')
+        else
+          is_expected.to contain_kernel_parameter('crashkernel').with(ensure: 'absent',
+                                                                      provider: 'grub2')
+        end
       end
 
       it do
