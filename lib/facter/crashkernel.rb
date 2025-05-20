@@ -20,6 +20,7 @@ Facter.add(:crashkernel) do
     if kernel_arguments && (kernel_arguments =~ %r{crashkernel=(\S+)})
       crashkernel = Regexp.last_match(1)
     end
+    crashkernel = false if crashkernel == 'no'
     crashkernel
   end
 end

@@ -21,5 +21,10 @@ describe 'crashkernel fact' do
       allow(Facter).to receive(:value).with(:kdump_kernel_arguments).and_return(my_fixture_read('kernelargs-without-crash.txt'))
       expect(Facter.fact(:crashkernel).value).to eq(false)
     end
+
+    it 'returns false when no' do
+      allow(Facter).to receive(:value).with(:kdump_kernel_arguments).and_return(my_fixture_read('kernelargs-with-crash-no.txt'))
+      expect(Facter.fact(:crashkernel).value).to eq(false)
+    end
   end
 end
